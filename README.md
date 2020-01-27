@@ -36,3 +36,8 @@ Geolocation To-Do App
 - With geolocations assigned to lists, you can view a local map with all of your todo list locations.
 - Select location on map, and view associated todo list as a popup.
 - (Stretch Goal - Always on geolocation verification, todo list would popup if nearby).
+
+
+# ERD
+
+![Image of ERD](https://i.imgur.com/Jim3GOH.png)
