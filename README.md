@@ -40,4 +40,4 @@ Geolocation To-Do App
 
 # ERD
 
-![Image of ERD](https://imgur.com/Jim3GOH)
+![Image of ERD](https://i.imgur.com/Jim3GOH.png)
