@@ -4,7 +4,7 @@ Geolocation To-Do App
 
 # Project 1 - GeoFetch - Geolocation ToDo App - ReadMe
 
-#User Stories
+# User Stories
 
 ## User Story - Signup/Login
 
