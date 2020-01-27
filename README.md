@@ -18,7 +18,7 @@ Geolocation To-Do App
 - With any amount of todo lists, I can search a local map for the locations associated with all (or filtered return) of the todo lists.
 - With several todo lists, I can sort them by geolocation, date due, or (last updated list - default), and filter by categories and (stretch - collaborator).
 - Create list.
-- The list headers shows the distance from the list to my home location or from my current location, if permitted.
+- The list headers shows the distance from the list to my home location, or (if permitted) from the list to my current location.
 
 ## User Story - List View - Detail
 
