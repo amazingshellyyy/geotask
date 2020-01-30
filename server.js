@@ -21,6 +21,31 @@ app.get("/",(request, response)=>{
       root: __dirname
   });
 } );
+app.get("/create",(request, response)=>{
+  response.sendFile('/views/create.html', {
+      root: __dirname
+  });
+} );
+app.get("/signup",(request, response)=>{
+  response.sendFile('/views/signup.html', {
+      root: __dirname
+  });
+} );
+app.get("/login",(request, response)=>{
+  response.sendFile('/views/login.html', {
+      root: __dirname
+  });
+} );
+app.get("/mapview",(request, response)=>{
+  response.sendFile('/views/mapview.html', {
+      root: __dirname
+  });
+} );
+app.get("/detail",(request, response)=>{
+  response.sendFile('/views/detail.html', {
+      root: __dirname
+  });
+} );
 
 
 
