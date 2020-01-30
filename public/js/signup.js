@@ -37,7 +37,7 @@ const handleSignUp = ()=> {
     if (formIsValid) {
       userData[input.name] = input.value;
     }
-    
+  });
     if (formIsValid) {
       //send data to server
       fetch(`${API}/api/v1/signup`, {
@@ -52,7 +52,7 @@ const handleSignUp = ()=> {
         .catch(err => console.log(err))
     
     }
-  });
+  
  
 
 };

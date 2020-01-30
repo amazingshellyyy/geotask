@@ -21,11 +21,11 @@ const userSchema = new Schema({
     required: [true, 'Password is required'],
     minlength: [4, 'Password must be at least 4 characters.'],
   },
-  location: {
-    type: Schema.Types.ObjectId,
-    ref: 'Location',
-    required: [true, 'Please enter your home address.']
-  },
+  // location: {
+  //   type: Schema.Types.ObjectId,
+  //   ref: 'Location',
+  //   required: [true, 'Please enter your home address.']
+  // },
   toDoList: [{
     type: Schema.Types.ObjectId,
     ref: 'ToDoList'
