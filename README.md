@@ -49,7 +49,7 @@ Geolocation To-Do App
   - Sign up 
     - encrypting password
     - Social Sign up (google), search for google ID
-    - **Stretch : phone number or email confirmation(6 digit code)**
+    - phone number or email confirmation(6 digit code)  
   - Log in 
     - Basic Email Password Auth
     - Session connect or **Stretch: JWT(JSON Web Token)**
