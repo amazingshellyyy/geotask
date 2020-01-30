@@ -16,41 +16,46 @@ app.use(bodyParser.json());
 
 /* View Routes */
 
-app.get("/",(request, response)=>{
-  response.sendFile('/views/index.html', {
+app.get('/',(req, res)=>{
+  res.sendFile('/views/index.html', {
       root: __dirname
   });
 } );
-app.get("/create",(request, response)=>{
-  response.sendFile('/views/create.html', {
+app.get('/create',(req, res)=>{
+  res.sendFile('/views/create.html', {
       root: __dirname
   });
 } );
-app.get("/signup",(request, response)=>{
-  response.sendFile('/views/signup.html', {
+app.get('/signup',(req, res)=>{
+  res.sendFile('/views/signup.html', {
       root: __dirname
   });
 } );
-app.get("/login",(request, response)=>{
-  response.sendFile('/views/login.html', {
+app.get('/login',(req, res)=>{
+  res.sendFile('/views/login.html', {
       root: __dirname
   });
 } );
-app.get("/mapview",(request, response)=>{
-  response.sendFile('/views/mapview.html', {
+app.get('/mapview',(req, res)=>{
+  res.sendFile('/views/mapview.html', {
       root: __dirname
   });
 } );
-app.get("/detail",(request, response)=>{
-  response.sendFile('/views/detail.html', {
+app.get('/detail',(req, res)=>{
+  res.sendFile('/views/detail.html', {
       root: __dirname
   });
 } );
-
-
 
 /* API Routes */
 
+app.post('/api/v1/signup', (req, res) => {
+  const userData = req.body;
+  db.User.create(userData, (err, newUser) => {
+    if (err) return res.status(400).json(err);
+    res.json(newUser);
+  })
+})
 
 
 /* 404 */
