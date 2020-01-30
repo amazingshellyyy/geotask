@@ -37,37 +37,61 @@ Geolocation To-Do App
 - Select location on map, and view associated todo list as a popup.
 - (Stretch Goal - Always on geolocation verification, todo list would popup if nearby).
 
-
 # ERD
 
 ![Image of ERD](https://i.imgur.com/Jim3GOH.png)
 
-
 # Milestones
 
-- Shelly
-  - Sign up 
-    - encrypting password
-    - Social Sign up (google), search for google ID
-    - **Stretch : phone number or email confirmation(6 digit code)**
-  - Log in 
-    - Basic Email Password Auth
-    - Session connect or **Stretch: JWT(JSON Web Token)**
-  - To-Do list All 
-    - fetch all data and show on page
-    - sorting
-    - **Searching**
-  - To-Do Detail Page
-    - Edit function(update)
-  - To-Do Create Page
-    - creat new to-do and update database
+## Shelly
 
-- Jason
-  - Sign up
-    - Social Sign up (Facebook)
-  - populate location pin on map
-  - show detail view when user click the pin
-  - google autocomplete and search terms
+- Sign up
+  - encrypting password
+  - Social Sign up (google), search for google ID
+  - phone number or email confirmation(6 digit code)
+- Log in
+  - Basic Email Password Auth
+  - Session connect or **Stretch: JWT(JSON Web Token)**
+- To-Do list All
+  - fetch all data and show on page
+  - sorting
+  - **Searching**
+- To-Do Detail Page
+  - Edit function(update)
+- To-Do Create Page
+  - creat new to-do and update database
+
+## Jason
+
+- Sign up
+  - Social Sign up (Facebook)
+- Map
+  - Populate location pin on map
+  - Show detail view when user clicks the pin
+  - Google autocomplete and search terms
     - https://developers.google.com/maps/documentation/javascript/places-autocomplete
-    
- 
+  - Grouping markers with same location on Map.
+  - Create map markers with same location on Map.
+  - Get badge on markers to show number of tasks in list.
+  - Show all current tasks with geolocations on Map.
+- Todo List - All
+  - Show distance from task list to home or **Stretch: current location**.
+
+# MVP
+
+- User signs up for account, and can create or signin with social signin; facebook/google.
+- Show lists of tasks, that can be created, edited, updated, marked as complete, and sorted.
+- Assign predefined categories to task list, with corresponding category color.
+- Assign & update geolocation to individual task list.
+- View map with home location, and tasks markers that have a geolocation, colored by category, and have a badge with number of tasks in the list.
+- Mobile-first design for layout and interaction.
+
+# Stretch Goals
+
+- Categories UI Elements for filtering task lists by category
+- Autocomplete on Google Map Search
+- User can access profile page with account info.
+- Assign emoji to task list categories.
+- Stretch: JWT(JSON Web Token)
+- Searching for tasks
+- Phone number and email confirmation.
