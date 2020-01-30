@@ -9,7 +9,7 @@ Geolocation To-Do App
 - As a user, I can create an account.
 - I can input basic info for signup, or signup with Facebook or Google Account.
 
-## User Story - Profile
+## User Story - Profile (Stretch)
 
 - As a user, I can add Profile info, edit info, or link from Facebook or Google account.
 
@@ -36,3 +36,38 @@ Geolocation To-Do App
 - With geolocations assigned to lists, you can view a local map with all of your todo list locations.
 - Select location on map, and view associated todo list as a popup.
 - (Stretch Goal - Always on geolocation verification, todo list would popup if nearby).
+
+
+# ERD
+
+![Image of ERD](https://i.imgur.com/Jim3GOH.png)
+
+
+# Milestones
+
+- Shelly
+  - Sign up 
+    - encrypting password
+    - Social Sign up (google), search for google ID
+    - **Stretch : phone number or email confirmation(6 digit code)**
+  - Log in 
+    - Basic Email Password Auth
+    - Session connect or **Stretch: JWT(JSON Web Token)**
+  - To-Do list All 
+    - fetch all data and show on page
+    - sorting
+    - **Searching**
+  - To-Do Detail Page
+    - Edit function(update)
+  - To-Do Create Page
+    - creat new to-do and update database
+
+- Jason
+  - Sign up
+    - Social Sign up (Facebook)
+  - populate location pin on map
+  - show detail view when user click the pin
+  - google autocomplete and search terms
+    - https://developers.google.com/maps/documentation/javascript/places-autocomplete
+    
+ 
