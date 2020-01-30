@@ -41,6 +41,7 @@ Geolocation To-Do App
 # ERD
 
 ![Image of ERD](https://i.imgur.com/Jim3GOH.png)
+<<<<<<< HEAD
 
 
 # Milestones
@@ -68,3 +69,5 @@ Geolocation To-Do App
   - populate location pin on map
   - show detail view when user click the pin
  
+=======
+>>>>>>> submaster
