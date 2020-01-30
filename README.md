@@ -56,7 +56,7 @@ Geolocation To-Do App
   - To-Do list All 
     - fetch all data and show on page
     - sorting
-    - searching
+    - **Searching**
   - To-Do Detail Page
     - Edit function(update)
   - To-Do Create Page
