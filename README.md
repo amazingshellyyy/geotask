@@ -51,7 +51,7 @@ Geolocation To-Do App
   - phone number or email confirmation(6 digit code)
 - Log in
   - Basic Email Password Auth
-  - Session connect or **Stretch: JWT(JSON Web Token)**
+  - connect-mongo or **Stretch: JWT(JSON Web Token)**
 - To-Do list All
   - fetch all data and show on page
   - sorting
