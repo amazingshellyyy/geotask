@@ -5,6 +5,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <!-- Google Clien ID -->
+  <meta name="google-signin-client_id" content="460668349841-nr4e2oft8ncive0b2ie70mafsfi7q0nc.apps.googleusercontent.com">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
     integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
   <title>Sign up</title>
@@ -12,6 +14,9 @@
   src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
   integrity="sha256-pasqAKBDmFT4eHoN2ndd6lN370kFiGUFyTiUHWhU7k8="
   crossorigin="anonymous"></script>
+  <!-- Google Sign in -->
+  <script src="https://apis.google.com/js/platform.js" async defer></script>
+  <!-- --------- -->
   <script src="/js/signup.js" defer></script>
 </head>
 
@@ -63,7 +68,49 @@
     <button type="submit" class="btn btn-primary">Submit</button>
   </form>
 </div>
+<div class="container mt-5">
+  <div class="g-signin2" data-onsuccess="onSignIn"></div>
+</div>
 
+<script>
+function onSignIn(googleUser) {
+  let profile = googleUser.getBasicProfile();
+  let id_token = googleUser.getAuthResponse().id_token;
+  console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+  console.log('Name: ' + profile.getName());
+  console.log('Image URL: ' + profile.getImageUrl());
+  console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+  console.log('Token' + id_token);
+  const GEmail = profile.getEmail();
+
+
+
+//   let xhr = new XMLHttpRequest();
+//   xhr.open('POST', 'https://localhost/api/v1/users');
+//   xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+//   xhr.onload = function() {
+//   console.log('Signed in as: ' + xhr.responseText);
+// };
+//   xhr.send('idtoken=' + id_token);
+  const socialUserData = {
+    email: GEmail,
+    GoogleToken: id_token
+  };
+
+  console.log(socialUserData);
+  fetch(`http://localhost:4000/api/v1/socialSignup`, {
+        method: 'POST',
+        headers: {
+          'content-Type': 'application/json',
+        },
+        body: JSON.stringify(socialUserData),
+      })
+        .then(res => res.json())
+        .then((data) => console.log('data',data))
+        .catch(err => console.log(err))
+    
+}
+</script>
   <!-- Bootstrap -->
   <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
     integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous">

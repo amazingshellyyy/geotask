@@ -65,6 +65,7 @@ app.get('/api/v1/users', (req, res) => {
 // })
 app.post('/api/v1/signup', ctrl.auth.signup);
 app.post('/api/v1/login', ctrl.auth.login);
+app.post('/api/v1/socialSignup', ctrl.auth.socialSignup);
 
 /* 404 */
 app.use((request, response, next)=>{

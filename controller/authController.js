@@ -84,9 +84,24 @@ const login = (req, res) => {
   });
 };
 
-
+const socialSignup = (req, res) => {
+	const userData = req.body;
+  console.log('userGoogle',userData);
+	//check for existing user account
+	db.User.findOne({ email: userData.email }, (err, foundUser) => {
+		if (err) return res.status(400).json({ message: 'Bad request, try again' });
+		//return error if account alraedy exist
+		if (foundUser) return res.status(400).json({ message: 'Email is already been registered, please try again' });	
+	}); 
+	db.User.create(userData, (err, createdUser) => {
+		if (err) return res.status(400).json({ message: "Bad Request, Please try again", err: err.errmsg });
+		res.status(201).json(createdUser);
+		// res.json({message: 'It is from Google!'});
+	});
+}
 
 module.exports = {
 	signup,
-	login
+	login,
+	socialSignup
 }

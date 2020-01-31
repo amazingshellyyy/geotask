@@ -12,6 +12,7 @@ const clearAlertMessage = ()=> {
 
 
 const handleSignUp = ()=> {
+  
   clearAlertMessage();
   event.preventDefault();
   const userData = {};
@@ -53,3 +54,4 @@ const handleSignUp = ()=> {
 };
 
 $form.on('submit', handleSignUp);
+

@@ -30,6 +30,7 @@ const userSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'ToDoList'
   }],
+  GoogleToken: String
 });
 
 const User = mongoose.model('User', userSchema);
