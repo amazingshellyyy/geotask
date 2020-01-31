@@ -61,81 +61,20 @@ app.get('/api/v1/users', (req, res) => {
 /* ToDo List Routes */
 /* TODO Refactor this section to send to toDoListController */
 
+// List index
+app.get('/api/v1/index', ctrl.toDoList.index);
+
 // List Create
-app.post('/api/v1/create', (req, res) => {
-  db.ToDoList.create(req.body, (error, createdToDoList) => {
-    if (error) {
-      // return to exit
-      return res
-        .status(500)
-        .json({ message: 'Something went wrong.', error: error });
-    }
-    const responseObj = {
-      status: 200,
-      data: createdToDoList,
-      requestedAt: new Date().toLocaleString()
-    };
-    res.status(200).json(responseObj);
-  });
-});
+app.post('/api/v1/create', ctrl.toDoList.create);
 
 // List Show
-app.get('/api/v1/detail/:id', (req, res) => {
-  db.ToDoList.findById(req.params.id, (error, updatedToDoList) => {
-    if (error) {
-      // return to exit
-      return res
-        .status(500)
-        .json({ message: 'Something went wrong.', error: error });
-    }
-    const responseObj = {
-      status: 200,
-      data: updatedToDoList,
-      requestedAt: new Date().toLocaleString()
-    };
-    res.status(200).json(responseObj);
-  });
-});
+app.get('/api/v1/detail/:id', ctrl.toDoList.show);
 
 // List Update
-app.put('/api/v1/detail/:id', (req, res) => {
-  db.ToDoList.findByIdAndUpdate(
-    req.params.id,
-    req.body,
-    { new: true },
-    (error, updatedToDoList) => {
-      if (error) {
-        // return to exit
-        return res
-          .status(500)
-          .json({ message: 'Something went wrong.', error: error });
-      }
-      const responseObj = {
-        status: 200,
-        data: updatedToDoList,
-        requestedAt: new Date().toLocaleString()
-      };
-      res.status(200).json(responseObj);
-    });
-});
+app.put('/api/v1/detail/:id', ctrl.toDoList.update);
 
 // List Delete
-app.delete('/api/v1/detail/:id', (req, res) => {
-  db.ToDoList.findByIdAndDelete(req.params.id, (error, deletedToDoList) => {
-    if (error) {
-      // return to exit
-      return res
-        .status(500)
-        .json({ message: 'Something went wrong.', error: error });
-    }
-    const responseObj = {
-      status: 200,
-      data: deletedToDoList,
-      requestedAt: new Date().toLocaleString()
-    };
-    res.status(200).json(responseObj);
-  });
-});
+app.delete('/api/v1/detail/:id', ctrl.toDoList.destroy);
 
 // User Signup & Login
 app.post('/api/v1/signup', ctrl.auth.signup);

@@ -1,4 +1,4 @@
 module.exports = {
-  auth: require('./authController')
-  // toDoList: require('./toDoListController')
+  auth: require('./authController'),
+  toDoList: require('./toDoListController')
 }
