@@ -46,16 +46,24 @@ app.get('/detail',(req, res)=>{
       root: __dirname
   });
 } );
-
+const ctrl = require('./controller')
 /* API Routes */
+app.get('/api/v1/signup', (req, res) => {
+  db.User.find({}, (err, allUsers)=> {
+    if (err) return response.status(400).json(err);
 
-app.post('/api/v1/signup', (req, res) => {
-  const userData = req.body;
-  db.User.create(userData, (err, newUser) => {
-    if (err) return res.status(400).json(err);
-    res.json(newUser);
+        //Respond with the requested data
+        res.json(allUsers);
   })
 })
+// app.post('/api/v1/signup', (req, res) => {
+//   const userData = req.body;
+//   db.User.create(userData, (err, newUser) => {
+//     if (err) return res.status(400).json(err);
+//     res.json(newUser);
+//   })
+// })
+app.post('/api/v1/signup', ctrl.auth.signup);
 
 
 /* 404 */
