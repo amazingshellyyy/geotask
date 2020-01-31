@@ -14,12 +14,9 @@ const clearAlertMessage = ()=> {
 const handleSignUp = ()=> {
   clearAlertMessage();
   event.preventDefault();
-  const $email = $('#email').val();
-  const $password = $('#password').val();
   const userData = {};
   const $formEle = $form.prop('elements')
   const formInput = [...$formEle].splice(0,2);
- 
 
   let formIsValid = true;
   formInput.forEach(input => {
@@ -52,10 +49,7 @@ const handleSignUp = ()=> {
         .catch(err => console.log(err))
     
     }
-  
- 
 
 };
-
 
 $form.on('submit', handleSignUp);

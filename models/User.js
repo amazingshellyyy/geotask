@@ -11,21 +11,21 @@ const Schema = mongoose.Schema;
 const userSchema = new Schema({
   email: {
     type: String,
-    required: [true, 'Email is required'],
+    // required: [true, 'Email is required'],
     trim: true,
     unique: [true, 'Email has already been registered.'],
     lowercase: true,
   },
   password: {
     type: String,
-    required: [true, 'Password is required'],
+    // required: [true, 'Password is required'],
     minlength: [4, 'Password must be at least 4 characters.'],
   },
-  // location: {
-  //   type: Schema.Types.ObjectId,
-  //   ref: 'Location',
-  //   required: [true, 'Please enter your home address.']
-  // },
+  location: {
+    type: Schema.Types.ObjectId,
+    ref: 'Location',
+    // required: [true, 'Please enter your home address.']
+  },
   toDoList: [{
     type: Schema.Types.ObjectId,
     ref: 'ToDoList'
