@@ -115,12 +115,15 @@ const socialLogin = (req, res) => {
       });
     }
 		if (foundUser) {
-      return res.status(200).json({
-        status: 200,
-        data: {id: foundUser._id},
-      });
+      const isMatch = foundUser.googleToken === userData.googleToken;
+      if (isMatch) {
+        return res.status(200).json({
+          status: 200,
+          data: {id: foundUser._id},
+          message: {message: 'hiiii'}
+        });
+      }
     }
-		// res.json({ message: 'hi' });
    
 	}); 
 }
