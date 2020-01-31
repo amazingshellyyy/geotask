@@ -100,8 +100,33 @@ const socialSignup = (req, res) => {
 	});
 }
 
+
+const socialLogin = (req, res) => {
+  const userData = req.body;
+  console.log('userGoogle',userData);
+  //check for existing user account
+	db.User.findOne({ email: userData.email }, (err, foundUser) => {
+		if (err) return res.status(400).json({ message: 'Bad request, tyr again' });
+    //return error if account alraedy exist
+    if (!foundUser) {
+      return res.status(400).json({
+        status: 400,
+        errors: [{message: 'you haven\'t sign up'}],
+      });
+    }
+		if (foundUser) {
+      return res.status(200).json({
+        status: 200,
+        data: {id: foundUser._id},
+      });
+    }
+		// res.json({ message: 'hi' });
+   
+	}); 
+}
 module.exports = {
 	signup,
 	login,
-	socialSignup
+  socialSignup,
+  socialLogin
 }

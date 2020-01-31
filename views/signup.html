@@ -82,16 +82,6 @@ function onSignIn(googleUser) {
   console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
   console.log('Token' + id_token);
   const GEmail = profile.getEmail();
-
-
-
-//   let xhr = new XMLHttpRequest();
-//   xhr.open('POST', 'https://localhost/api/v1/users');
-//   xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-//   xhr.onload = function() {
-//   console.log('Signed in as: ' + xhr.responseText);
-// };
-//   xhr.send('idtoken=' + id_token);
   const socialUserData = {
     email: GEmail,
     GoogleToken: id_token
