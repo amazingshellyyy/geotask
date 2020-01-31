@@ -48,7 +48,7 @@ app.get('/detail',(req, res)=>{
 } );
 const ctrl = require('./controller')
 /* API Routes */
-app.get('/api/v1/signup', (req, res) => {
+app.get('/api/v1/users', (req, res) => {
   db.User.find({}, (err, allUsers)=> {
     if (err) return response.status(400).json(err);
 
@@ -64,7 +64,7 @@ app.get('/api/v1/signup', (req, res) => {
 //   })
 // })
 app.post('/api/v1/signup', ctrl.auth.signup);
-
+app.post('/api/v1/login', ctrl.auth.login);
 
 /* 404 */
 app.use((request, response, next)=>{
