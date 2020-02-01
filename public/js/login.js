@@ -45,7 +45,10 @@ const handleLogIn = ()=> {
         body: JSON.stringify(userData),
       })
         .then(res => res.json())
-        .then((data) => console.log('data',data))
+        .then((data) => {
+          console.log('data',data);
+          // window.location = ('/');
+        })
         .catch(err => console.log(err))
     
     }
@@ -53,3 +56,17 @@ const handleLogIn = ()=> {
 };
 
 $form.on('submit', handleLogIn);
+
+
+
+
+/* fectch api/v1/verify */
+/* fetch('/api/v1/verify', {
+  method: 'GET',
+  headers: {
+    'Authorization': 'Bearer' + authToken
+  }
+})
+.then(res => res.json())
+.then(data => { console.log(data) })
+.catch(err => { console.log(err) }) */

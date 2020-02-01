@@ -46,7 +46,10 @@ const handleSignUp = ()=> {
         body: JSON.stringify(userData),
       })
         .then(res => res.json())
-        .then((data) => console.log('data',data))
+        .then((data) => {
+          console.log('data',data);
+          window.location = ('/');
+        })
         .catch(err => console.log(err))
     
     }

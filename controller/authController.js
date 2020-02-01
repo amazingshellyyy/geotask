@@ -1,6 +1,6 @@
 const bcrypt = require('bcryptjs');
 const db = require('../models');
-
+const jwt = require('jsonwebtoken');
 
 
 const signup = (req, res) => {
@@ -67,13 +67,19 @@ const login = (req, res) => {
         errors: [{message: 'Something went wrong. Please try again'}],
       });
       if (isMatch) {
+        /* jwt */
+        jwt.sign({ foo: foundUser._id }, 'shhhhh',{expiresIn: '1h'}, (err, jwt) => {
+          if (err) return res.status(500).json({
+            status: 503,
+            errors: [{message: 'access forbidden'}],
+          });
+          res.send(jwt);
+        });
+        /* save to create session */
         // req.session.loggedIn = true;
         // req.session.currentUser = {id: foundUser._id, name: foundUser.name, email: foundUser.email};
         // req.session.currentUser = foundUser._id;
-        return res.status(200).json({
-          status: 200,
-          data: {id: foundUser._id},
-        });
+        
       } else {
         return res.json({
           status: 400,
@@ -117,19 +123,44 @@ const socialLogin = (req, res) => {
 		if (foundUser) {
       const isMatch = foundUser.googleToken === userData.googleToken;
       if (isMatch) {
-        return res.status(200).json({
-          status: 200,
-          data: {id: foundUser._id},
-          message: {message: 'hiiii'}
+        jwt.sign({ foo: 'bar' }, 'shhhhh',{expiresIn: '1h'}, (err, token) => {
+          if (err) return res.status(500).json({
+            status: 500,
+            errors: [{message: 'jwt not working!'}],
+          });
+          foundUser.token = token;
+          return res.status(200).json(foundUser);
+          
         });
       }
     }
    
 	}); 
 }
+
+const verify = (req, res) => {
+  // res.json(req.body);
+  // const token = req.body.token;
+  const header = req.headers['authorization'];
+    if(typeof header !== 'undefined') {
+        const bearer = header.split(' ');
+        const token = bearer[1];
+        req.token = token;
+        // next();
+    } else {
+        //If header is undefined return Forbidden (403)
+        res.sendStatus(403)
+    }
+  jwt.verify(req.token, 'shhhhh', function(err, decoded) {
+    if (err) return res.status(400).json({message: 'You are not authorized'});
+    console.log(decoded.foo) // bar, foundUser._id
+    res.json({message: 'Authorized', userIddecode : decoded.foo});
+  });
+}
 module.exports = {
 	signup,
 	login,
   socialSignup,
-  socialLogin
+  socialLogin,
+  verify
 }
