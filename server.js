@@ -58,9 +58,12 @@ app.get('/api/v1/users', (req, res) => {
   })
 })
 
-/* ToDo List Routes */
-/* TODO Refactor this section to send to toDoListController */
+// User Signup & Login
+app.post('/api/v1/signup', ctrl.auth.signup);
+app.post('/api/v1/login', ctrl.auth.login);
+app.post('/api/v1/socialSignup', ctrl.auth.socialSignup);
 
+/* ToDo List Routes */
 // List index
 app.get('/api/v1/index', ctrl.toDoList.index);
 
@@ -70,16 +73,43 @@ app.post('/api/v1/create', ctrl.toDoList.create);
 // List Show
 app.get('/api/v1/detail/:id', ctrl.toDoList.show);
 
-// List Update
-app.put('/api/v1/detail/:id', ctrl.toDoList.update);
+// List Update Title
+app.put('/api/v1/detail/:id', ctrl.toDoList.updateTitle);
+
+// List Add Task
+app.put('/api/v1/detail/:id', ctrl.toDoList.addTask);
 
 // List Delete
 app.delete('/api/v1/detail/:id', ctrl.toDoList.destroy);
 
-// User Signup & Login
-app.post('/api/v1/signup', ctrl.auth.signup);
-app.post('/api/v1/login', ctrl.auth.login);
-app.post('/api/v1/socialSignup', ctrl.auth.socialSignup);
+/* ToDo List Item Routes */
+// List index
+app.get('/api/v1/items', ctrl.item.index);
+
+// List Item Create
+app.post('/api/v1/create/item', ctrl.item.create);
+
+// List Item Update
+app.put('/api/v1/detail/item/:id', ctrl.item.update);
+
+// List Item Delete
+app.delete('/api/v1/detail/item/:id', ctrl.item.destroy);
+
+/* Location Routes */
+// Location index
+app.get('/api/v1/location/index', ctrl.location.index);
+
+// Location Create
+app.post('/api/v1/location/create', ctrl.location.create);
+
+// Location Show
+app.get('/api/v1/location/:id', ctrl.location.show);
+
+// Location Update
+app.put('/api/v1/location/:id', ctrl.location.update);
+
+// Location Delete
+app.delete('/api/v1/location/:id', ctrl.location.destroy);
 
 /* 404 */
 app.use((request, response, next) => {

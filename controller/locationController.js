@@ -1,10 +1,10 @@
 const db = require('../models');
 
-// List Index
+// Location Index
 const index = (req, res) => {
-  db.ToDoList.find({})
+  db.Location.find({})
     .populate('item')
-    .exec((error, indexToDoList) => {
+    .exec((error, indexLocation) => {
       if (error) {
         // return to exit
         return res
@@ -13,16 +13,16 @@ const index = (req, res) => {
       }
       const responseObj = {
         status: 200,
-        data: indexToDoList,
+        data: indexLocation,
         requestedAt: new Date().toLocaleString()
       };
       res.status(200).json(responseObj);
     });
 };
 
-// List Create
+// Location Create
 const create = (req, res) => {
-  db.ToDoList.create(req.body, (error, createdToDoList) => {
+  db.Location.create(req.body, (error, createdLocation) => {
     if (error) {
       // return to exit
       return res
@@ -31,18 +31,18 @@ const create = (req, res) => {
     }
     const responseObj = {
       status: 200,
-      data: createdToDoList,
+      data: createdLocation,
       requestedAt: new Date().toLocaleString()
     };
     res.status(200).json(responseObj);
   });
 };
 
-// List Show
+// Location Show
 const show = (req, res) => {
-  db.ToDoList.findById(req.params.id)
+  db.Location.findById(req.params.id)
     .populate('item')
-    .exec((error, updatedToDoList) => {
+    .exec((error, updatedLocation) => {
       if (error) {
         // return to exit
         return res
@@ -51,21 +51,20 @@ const show = (req, res) => {
       }
       const responseObj = {
         status: 200,
-        data: updatedToDoList,
+        data: updatedLocation,
         requestedAt: new Date().toLocaleString()
       };
       res.status(200).json(responseObj);
     });
 };
 
-// List Update
-// TODO Update this for async await to populate list items.
-const updateTitle = (req, res) => {
-  db.ToDoList.findByIdAndUpdate(
+// Location Update
+const update = (req, res) => {
+  db.Location.findByIdAndUpdate(
     req.params.id,
     req.body,
     { new: true },
-    (error, updatedToDoList) => {
+    (error, updatedLocation) => {
       if (error) {
         // return to exit
         return res
@@ -74,27 +73,16 @@ const updateTitle = (req, res) => {
       }
       const responseObj = {
         status: 200,
-        data: updatedToDoList,
+        data: updatedLocation,
         requestedAt: new Date().toLocaleString()
       };
       res.status(200).json(responseObj);
     });
-};
-
-const addTask = async (req, res) => {
-  try {
-    const foundToDoList = await db.ToDoList.findById(req.params.id);
-    foundToDoList.item.push(req.body);
-    foundToDoList.save(); // commits changes to db
-    response.success(200, foundToDoList);
-  } catch (error) {
-    return res.error(500, 'Something went wrong. Please try again.');
-  }
 };
 
 // List Delete
 const destroy = (req, res) => {
-  db.ToDoList.findByIdAndDelete(req.params.id, (error, deletedToDoList) => {
+  db.Location.findByIdAndDelete(req.params.id, (error, deletedLocation) => {
     if (error) {
       // return to exit
       return res
@@ -103,7 +91,7 @@ const destroy = (req, res) => {
     }
     const responseObj = {
       status: 200,
-      data: deletedToDoList,
+      data: deletedLocation,
       requestedAt: new Date().toLocaleString()
     };
     res.status(200).json(responseObj);
@@ -114,9 +102,6 @@ module.exports = {
   index,
   create,
   show,
-  // showAsync,
-  updateTitle,
-  addTask,
+  update,
   destroy,
-  addTask
 };

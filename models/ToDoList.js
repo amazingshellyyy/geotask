@@ -22,7 +22,7 @@ const toDoListSchema = new Schema({
   location: {
     type: Schema.Types.ObjectId,
     ref: 'Location',
-    /* TODO uncomment the file below before pushing to submaster  */
+    /* TODO uncomment the line below before pushing to submaster  */
     // required: true
   },
   item: [{
