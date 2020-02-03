@@ -51,6 +51,8 @@ const login = (req, res) => {
     });
   }
   db.User.findOne({email: req.body.email}, (err, foundUser) => {
+  
+
     if (err) return res.status(500).json({
       status: 500,
       errors: [{message: 'Something went wrong. Please try again'}],
@@ -69,11 +71,14 @@ const login = (req, res) => {
       if (isMatch) {
         /* jwt */
         jwt.sign({ foo: foundUser._id }, 'shhhhh',{expiresIn: '1h'}, (err, jwt) => {
+          
           if (err) return res.status(500).json({
             status: 503,
             errors: [{message: 'access forbidden'}],
           });
-          res.send(jwt);
+          console.log('jwt',jwt);
+          res.status(200).json({jwt});
+          // res.status(201).json({message: 'Logged In'});
         });
         /* save to create session */
         // req.session.loggedIn = true;
@@ -138,29 +143,9 @@ const socialLogin = (req, res) => {
 	}); 
 }
 
-const verify = (req, res) => {
-  // res.json(req.body);
-  // const token = req.body.token;
-  const header = req.headers['authorization'];
-    if(typeof header !== 'undefined') {
-        const bearer = header.split(' ');
-        const token = bearer[1];
-        req.token = token;
-        // next();
-    } else {
-        //If header is undefined return Forbidden (403)
-        res.sendStatus(403)
-    }
-  jwt.verify(req.token, 'shhhhh', function(err, decoded) {
-    if (err) return res.status(400).json({message: 'You are not authorized'});
-    console.log(decoded.foo) // bar, foundUser._id
-    res.json({message: 'Authorized', userIddecode : decoded.foo});
-  });
-}
 module.exports = {
 	signup,
 	login,
   socialSignup,
   socialLogin,
-  verify
 }

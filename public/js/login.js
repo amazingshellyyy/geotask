@@ -1,6 +1,6 @@
 const $form = $('form');
 const API = 'http://localhost:4000';
-
+console.log('hiii');
 const clearAlertMessage = ()=> {
   document.querySelectorAll('.alert').forEach(ele => {
     ele.remove();
@@ -46,8 +46,9 @@ const handleLogIn = ()=> {
       })
         .then(res => res.json())
         .then((data) => {
-          console.log('data',data);
-          // window.location = ('/');
+          const jwt = data.jwt
+          localStorage.setItem('jwt', jwt);
+          window.location =  '/';
         })
         .catch(err => console.log(err))
     

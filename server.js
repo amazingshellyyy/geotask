@@ -3,7 +3,8 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
 const PORT = process.env.PORT || 4000;
-
+const ctrl = require('./controller');
+const mw = require('./middleware');
 
 const db = require('./models');
 /* middleware */
@@ -16,7 +17,7 @@ app.use(bodyParser.json());
 
 /* View Routes */
 
-app.get('/',(req, res)=>{
+app.get('/', (req, res)=>{
   res.sendFile('/views/index.html', {
       root: __dirname
   });
@@ -46,7 +47,7 @@ app.get('/detail',(req, res)=>{
       root: __dirname
   });
 } );
-const ctrl = require('./controller')
+
 /* API Routes */
 app.get('/api/v1/users', (req, res) => {
   db.User.find({}, (err, allUsers)=> {
@@ -67,7 +68,7 @@ app.post('/api/v1/signup', ctrl.auth.signup);
 app.post('/api/v1/login', ctrl.auth.login);
 app.post('/api/v1/socialSignup', ctrl.auth.socialSignup);
 app.post('/api/v1/socialLogin', ctrl.auth.socialLogin);
-app.get('/api/v1/verify', ctrl.auth.verify);
+
 /* 404 */
 app.use((request, response, next)=>{
   response.send('<h2>404: Not Found</h2>');
