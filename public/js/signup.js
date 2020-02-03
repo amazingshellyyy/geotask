@@ -1,5 +1,5 @@
 const $form = $('form');
-const API = 'http://localhost:4000';
+const BASE = 'http://localhost:4000';
 
 const clearAlertMessage = ()=> {
   document.querySelectorAll('.alert').forEach(ele => {
@@ -18,7 +18,7 @@ const handleSignUp = ()=> {
   const userData = {};
   const $formEle = $form.prop('elements')
   const formInput = [...$formEle].splice(0,2);
-
+  console.log('formInput',formInput);
   let formIsValid = true;
   formInput.forEach(input => {
     if (input.value === '') {
@@ -34,11 +34,12 @@ const handleSignUp = ()=> {
 
     if (formIsValid) {
       userData[input.name] = input.value;
+      console.log('userData',userData);
     }
   });
     if (formIsValid) {
       //send data to server
-      fetch(`${API}/api/v1/signup`, {
+      fetch(`${BASE}/api/v1/signup`, {
         method: 'POST',
         headers: {
           'content-Type': 'application/json',
@@ -48,7 +49,10 @@ const handleSignUp = ()=> {
         .then(res => res.json())
         .then((data) => {
           console.log('data',data);
-          window.location = ('/');
+          const jwt = data.jwt
+          localStorage.setItem('jwt', jwt);
+          window.location =  '/profile';
+         
         })
         .catch(err => console.log(err))
     
@@ -58,3 +62,36 @@ const handleSignUp = ()=> {
 
 $form.on('submit', handleSignUp);
 
+
+function onSignIn(googleUser) {
+  let profile = googleUser.getBasicProfile();
+  let id_token = googleUser.getAuthResponse().id_token;
+  console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+  console.log('Name: ' + profile.getName());
+  console.log('Image URL: ' + profile.getImageUrl());
+  console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+  console.log('Token' + id_token);
+  const GEmail = profile.getEmail();
+  const socialUserData = {
+    email: GEmail,
+    GoogleToken: id_token
+  };
+
+  console.log(socialUserData);
+  fetch(`${BASE}/api/v1/socialSignup`, {
+        method: 'POST',
+        headers: {
+          'content-Type': 'application/json',
+        },
+        body: JSON.stringify(socialUserData),
+      })
+        .then(res => res.json())
+        .then((data) => {
+          console.log('data',data);
+          const jwt = data.jwt;
+          localStorage.setItem('jwt', jwt);
+          // window.location =  '/profile';
+        })
+        .catch(err => console.log(err))
+    
+}

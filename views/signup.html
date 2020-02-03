@@ -72,35 +72,6 @@
   <div class="g-signin2" data-onsuccess="onSignIn"></div>
 </div>
 
-<script>
-function onSignIn(googleUser) {
-  let profile = googleUser.getBasicProfile();
-  let id_token = googleUser.getAuthResponse().id_token;
-  console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
-  console.log('Name: ' + profile.getName());
-  console.log('Image URL: ' + profile.getImageUrl());
-  console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
-  console.log('Token' + id_token);
-  const GEmail = profile.getEmail();
-  const socialUserData = {
-    email: GEmail,
-    GoogleToken: id_token
-  };
-
-  console.log(socialUserData);
-  fetch(`http://localhost:4000/api/v1/socialSignup`, {
-        method: 'POST',
-        headers: {
-          'content-Type': 'application/json',
-        },
-        body: JSON.stringify(socialUserData),
-      })
-        .then(res => res.json())
-        .then((data) => console.log('data',data))
-        .catch(err => console.log(err))
-    
-}
-</script>
   <!-- Bootstrap -->
   <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
     integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous">
