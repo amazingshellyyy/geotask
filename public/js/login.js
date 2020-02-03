@@ -48,7 +48,7 @@ const handleLogIn = ()=> {
         .then((data) => {
           const jwt = data.jwt
           localStorage.setItem('jwt', jwt);
-          window.location =  '/';
+          window.location =  '/profile';
         })
         .catch(err => console.log(err))
     

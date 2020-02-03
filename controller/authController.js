@@ -70,13 +70,13 @@ const login = (req, res) => {
       });
       if (isMatch) {
         /* jwt */
-        jwt.sign({ foo: foundUser._id }, 'shhhhh',{expiresIn: '1h'}, (err, jwt) => {
+        jwt.sign({ foo: foundUser._id }, 'shhhhh',{expiresIn: '10h'}, (err, jwt) => {
           
           if (err) return res.status(500).json({
             status: 503,
             errors: [{message: 'access forbidden'}],
           });
-          console.log('jwt',jwt);
+         
           res.status(200).json({jwt});
           // res.status(201).json({message: 'Logged In'});
         });
@@ -128,7 +128,7 @@ const socialLogin = (req, res) => {
 		if (foundUser) {
       const isMatch = foundUser.googleToken === userData.googleToken;
       if (isMatch) {
-        jwt.sign({ foo: 'bar' }, 'shhhhh',{expiresIn: '1h'}, (err, token) => {
+        jwt.sign({ foo: 'bar' }, 'shhhhh',{expiresIn: '10h'}, (err, token) => {
           if (err) return res.status(500).json({
             status: 500,
             errors: [{message: 'jwt not working!'}],

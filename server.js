@@ -22,6 +22,11 @@ app.get('/', (req, res)=>{
       root: __dirname
   });
 } );
+app.get('/profile', (req, res)=>{
+  res.sendFile('/views/profile.html', {
+      root: __dirname
+  });
+} );
 app.get('/create',(req, res)=>{
   res.sendFile('/views/create.html', {
       root: __dirname
@@ -42,7 +47,7 @@ app.get('/mapview',(req, res)=>{
       root: __dirname
   });
 } );
-app.get('/detail',(req, res)=>{
+app.get('/detail', (req, res)=>{
   res.sendFile('/views/detail.html', {
       root: __dirname
   });
@@ -68,6 +73,12 @@ app.post('/api/v1/signup', ctrl.auth.signup);
 app.post('/api/v1/login', ctrl.auth.login);
 app.post('/api/v1/socialSignup', ctrl.auth.socialSignup);
 app.post('/api/v1/socialLogin', ctrl.auth.socialLogin);
+app.post('/api/v1/verify', mw.auth.verify);
+app.post('/api/v1/profile', mw.auth.verify,
+ctrl.user.showProfile);
+
+
+
 
 /* 404 */
 app.use((request, response, next)=>{
