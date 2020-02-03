@@ -11,13 +11,13 @@ if (!!token) {
   fetch(`${BASE}/api/v1/profile`, {
     method: 'POST',
     headers: {
-      'Authorization': `bearer ${token}`,
+      'authorization': `bearer ${token}`,
     }
   })
     .then(res => res.json())
     .then((data) => {
       console.log('data',data);
-      render(data);
+      // render(data);
     })
     .catch(err => console.log(err))
 } else {

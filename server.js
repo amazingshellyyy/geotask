@@ -49,7 +49,7 @@ app.get('/detail', (req, res)=>{
     root: __dirname
   });
 });
-const ctrl = require('./controller')
+
 
 /* API Routes */
 app.get('/api/v1/users', (req, res) => {
