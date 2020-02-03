@@ -3,19 +3,14 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
 const PORT = process.env.PORT || 4000;
-
-
 const db = require('./models');
+
 /* middleware */
-
-
 app.use(express.static(`${__dirname}/public`));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-
 /* View Routes */
-
 app.get('/', (req, res) => {
   res.sendFile('/views/index.html', {
     root: __dirname
@@ -58,13 +53,12 @@ app.get('/api/v1/users', (req, res) => {
   })
 })
 
-// User Signup & Login
+/* ----------- User Signup & Login */
 app.post('/api/v1/signup', ctrl.auth.signup);
 app.post('/api/v1/login', ctrl.auth.login);
 app.post('/api/v1/socialSignup', ctrl.auth.socialSignup);
 
 /* ----------- ToDo List Routes */
-/* verified in insomnia */
 // List index
 app.get('/api/v1/list/index', ctrl.toDoList.index);
 // List Create
@@ -77,7 +71,6 @@ app.put('/api/v1/list/detail/:id', ctrl.toDoList.updateTitle);
 app.delete('/api/v1/list/detail/:id', ctrl.toDoList.destroy);
 
 /* -----------  Item Routes */
-// verified in insomnia
 // Item index
 app.get('/api/v1/items', ctrl.item.index);
 // Item Create
@@ -90,20 +83,12 @@ app.delete('/api/v1/item/detail/:id', ctrl.item.destroy);
 /* ----------- Location Routes */
 // Location index
 app.get('/api/v1/location/index', ctrl.location.index);
-
 // Location Create
-app.post('/api/v1/location/create', ctrl.location.create);
-
-/* TODO need to refactor the create controller to handle location assignment like the todolist item create */
-// Location Create Refactor
-app.post('/api/v2/list/:id/location', ctrl.location.createRefactor);
-
+app.post('/api/v1/list/:id/location', ctrl.location.create);
 // Location Show
 app.get('/api/v1/location/:id', ctrl.location.show);
-
 // Location Update
 app.put('/api/v1/location/:id', ctrl.location.update);
-
 // Location Delete
 app.delete('/api/v1/location/:id', ctrl.location.destroy);
 
@@ -111,6 +96,5 @@ app.delete('/api/v1/location/:id', ctrl.location.destroy);
 app.use((request, response, next) => {
   response.send('<h2>404: Not Found</h2>');
 })
-
 
 app.listen(PORT, () => console.log(`server running at http://localhost:${PORT}`));

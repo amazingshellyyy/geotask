@@ -21,32 +21,15 @@ const index = (req, res) => {
 };
 
 // Location Create
-const create = (req, res) => {
-  db.Location.create(req.body, (error, createdLocation) => {
-    if (error) {
-      // return to exit
-      return res
-        .status(500)
-        .json({ message: 'Something went wrong.', error: error });
-    }
-    const responseObj = {
-      status: 200,
-      data: createdLocation,
-      requestedAt: new Date().toLocaleString()
-    };
-    res.status(200).json(responseObj);
-  });
-};
-
-// Location Create Refactor
-const createRefactor = async (req, res) => {
+const create = async (req, res) => {
   try {
     console.log('Finding Todo List');
     const foundToDoList = await db.ToDoList.findById(req.params.id);
     console.log('Assigning New Location');
     const newLocation = await db.Location.create(req.body);
     console.log('Updating Todo List with New Location');
-    foundToDoList.location.push(newLocation);
+    /* TODO BUG - the location is not saving to the todolist */
+    foundToDoList.location = newLocation;
     console.log('Saving Todo List');
     const savedToDoList = await foundToDoList.save();
     res.status(200).json(savedToDoList);
@@ -118,7 +101,6 @@ const destroy = (req, res) => {
 module.exports = {
   index,
   create,
-  createRefactor,
   show,
   update,
   destroy,
