@@ -18,11 +18,13 @@ const toDoListSchema = new Schema({
   },
   dateCreated: Date,
   dateDue: Date,
+  /* TODO Update dateUpdated to pass the current date. */
   dateUpdated: Date,
   location: {
     type: Schema.Types.ObjectId,
     ref: 'Location',
-    required: true
+    /* TODO uncomment the line below before pushing to submaster  */
+    // required: true
   },
   item: [{
     type: Schema.Types.ObjectId,
