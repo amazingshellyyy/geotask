@@ -3,6 +3,9 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
 const PORT = process.env.PORT || 4000;
+const ctrl = require('./controller');
+const mw = require('./middleware');
+
 const db = require('./models');
 
 /* middleware */
@@ -15,8 +18,13 @@ app.get('/', (req, res) => {
   res.sendFile('/views/index.html', {
     root: __dirname
   });
-});
-app.get('/create', (req, res) => {
+} );
+app.get('/profile', (req, res)=>{
+  res.sendFile('/views/profile.html', {
+      root: __dirname
+  });
+} );
+app.get('/create',(req, res)=>{
   res.sendFile('/views/create.html', {
     root: __dirname
   });
@@ -35,8 +43,8 @@ app.get('/mapview', (req, res) => {
   res.sendFile('/views/mapview.html', {
     root: __dirname
   });
-});
-app.get('/detail', (req, res) => {
+} );
+app.get('/detail', (req, res)=>{
   res.sendFile('/views/detail.html', {
     root: __dirname
   });
@@ -57,6 +65,13 @@ app.get('/api/v1/users', (req, res) => {
 app.post('/api/v1/signup', ctrl.auth.signup);
 app.post('/api/v1/login', ctrl.auth.login);
 app.post('/api/v1/socialSignup', ctrl.auth.socialSignup);
+app.post('/api/v1/socialLogin', ctrl.auth.socialLogin);
+app.post('/api/v1/verify', mw.auth.verify);
+app.post('/api/v1/profile', mw.auth.verify,
+ctrl.user.showProfile);
+
+
+
 
 /* ----------- ToDo List Routes */
 // List index
