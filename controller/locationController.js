@@ -38,6 +38,23 @@ const create = (req, res) => {
   });
 };
 
+// Location Create Refactor
+const createRefactor = async (req, res) => {
+  try {
+    console.log('Finding Todo List');
+    const foundToDoList = await db.ToDoList.findById(req.params.id);
+    console.log('Assigning New Location');
+    const newLocation = await db.Location.create(req.body);
+    console.log('Updating Todo List with New Location');
+    foundToDoList.location.push(newLocation);
+    console.log('Saving Todo List');
+    const savedToDoList = await foundToDoList.save();
+    res.status(200).json(savedToDoList);
+  } catch (error) {
+    return res.status(500).json(error);
+  }
+};
+
 // Location Show
 const show = (req, res) => {
   db.Location.findById(req.params.id)
@@ -101,6 +118,7 @@ const destroy = (req, res) => {
 module.exports = {
   index,
   create,
+  createRefactor,
   show,
   update,
   destroy,

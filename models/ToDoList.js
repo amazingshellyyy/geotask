@@ -18,6 +18,7 @@ const toDoListSchema = new Schema({
   },
   dateCreated: Date,
   dateDue: Date,
+  /* TODO I need to update dateUpdated to pass the current date */
   dateUpdated: Date,
   location: {
     type: Schema.Types.ObjectId,

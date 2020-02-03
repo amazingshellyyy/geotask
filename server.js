@@ -63,44 +63,40 @@ app.post('/api/v1/signup', ctrl.auth.signup);
 app.post('/api/v1/login', ctrl.auth.login);
 app.post('/api/v1/socialSignup', ctrl.auth.socialSignup);
 
-/* ToDo List Routes */
+/* ----------- ToDo List Routes */
+/* verified in insomnia */
 // List index
-app.get('/api/v1/index', ctrl.toDoList.index);
-
+app.get('/api/v1/list/index', ctrl.toDoList.index);
 // List Create
-app.post('/api/v1/create', ctrl.toDoList.create);
-
+app.post('/api/v1/list/create', ctrl.toDoList.create);
 // List Show
-app.get('/api/v1/detail/:id', ctrl.toDoList.show);
-
+app.get('/api/v1/list/detail/:id', ctrl.toDoList.show);
 // List Update Title
-app.put('/api/v1/detail/:id', ctrl.toDoList.updateTitle);
-
-// List Add Task
-app.put('/api/v1/detail/:id', ctrl.toDoList.addTask);
-
+app.put('/api/v1/list/detail/:id', ctrl.toDoList.updateTitle);
 // List Delete
-app.delete('/api/v1/detail/:id', ctrl.toDoList.destroy);
+app.delete('/api/v1/list/detail/:id', ctrl.toDoList.destroy);
 
-/* ToDo List Item Routes */
-// List index
+/* -----------  Item Routes */
+// verified in insomnia
+// Item index
 app.get('/api/v1/items', ctrl.item.index);
+// Item Create
+app.post('/api/v1/list/:id/item', ctrl.item.create);
+// Item Update
+app.put('/api/v1/item/detail/:id', ctrl.item.update);
+// Item Delete
+app.delete('/api/v1/item/detail/:id', ctrl.item.destroy);
 
-// List Item Create
-app.post('/api/v1/create/item', ctrl.item.create);
-
-// List Item Update
-app.put('/api/v1/detail/item/:id', ctrl.item.update);
-
-// List Item Delete
-app.delete('/api/v1/detail/item/:id', ctrl.item.destroy);
-
-/* Location Routes */
+/* ----------- Location Routes */
 // Location index
 app.get('/api/v1/location/index', ctrl.location.index);
 
 // Location Create
 app.post('/api/v1/location/create', ctrl.location.create);
+
+/* TODO need to refactor the create controller to handle location assignment like the todolist item create */
+// Location Create Refactor
+app.post('/api/v2/list/:id/location', ctrl.location.createRefactor);
 
 // Location Show
 app.get('/api/v1/location/:id', ctrl.location.show);
@@ -111,7 +107,7 @@ app.put('/api/v1/location/:id', ctrl.location.update);
 // Location Delete
 app.delete('/api/v1/location/:id', ctrl.location.destroy);
 
-/* 404 */
+/* ----------- 404 */
 app.use((request, response, next) => {
   response.send('<h2>404: Not Found</h2>');
 })

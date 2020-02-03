@@ -56,6 +56,11 @@ const show = (req, res) => {
       };
       res.status(200).json(responseObj);
     });
+  // db.ToDoList.findById(req.params.id, (err, foundList) => {
+  //   if (err) res.status(400).json(err);
+
+  //   res.json(foundList);
+  // })
 };
 
 // List Update
@@ -81,16 +86,7 @@ const updateTitle = (req, res) => {
     });
 };
 
-const addTask = async (req, res) => {
-  try {
-    const foundToDoList = await db.ToDoList.findById(req.params.id);
-    foundToDoList.item.push(req.body);
-    foundToDoList.save(); // commits changes to db
-    response.success(200, foundToDoList);
-  } catch (error) {
-    return res.error(500, 'Something went wrong. Please try again.');
-  }
-};
+
 
 // List Delete
 const destroy = (req, res) => {
@@ -114,9 +110,6 @@ module.exports = {
   index,
   create,
   show,
-  // showAsync,
   updateTitle,
-  addTask,
-  destroy,
-  addTask
+  destroy
 };
