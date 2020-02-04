@@ -17,7 +17,7 @@ if (!!token) {
     .then(res => res.json())
     .then((data) => {
       console.log('data',data);
-      // render(data);
+      render(data);
     })
     .catch(err => console.log(err))
 } else {
@@ -26,5 +26,5 @@ if (!!token) {
 
 
 const render = (data) => {
-  $('body').append(`<ul><li>${data._id}</li><li>${data.email}</li></ul>`)
+  $('.profile').append(`<ul><li>Email: ${data.email}</li></ul>`)
 }

@@ -1,0 +1,7 @@
+body {
+  /* background-color: antiquewhite; */
+}
+
+input:disabled {
+  border-color: transparent;
+}
