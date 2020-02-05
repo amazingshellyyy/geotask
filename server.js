@@ -77,7 +77,7 @@ ctrl.user.showProfile);
 // List index
 app.get('/api/v1/list/index', ctrl.toDoList.index);
 // List Create
-app.post('/api/v1/list/create', ctrl.toDoList.create);
+app.post('/api/v1/list/create', mw.auth.verify, ctrl.toDoList.create);
 // List Show
 app.get('/api/v1/list/detail/:id', ctrl.toDoList.show);
 // List Update Title
