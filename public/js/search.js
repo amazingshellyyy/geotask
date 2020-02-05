@@ -2,8 +2,40 @@ console.log('map view active');
 var map;
 var service;
 var infowindow;
+let user = {
+  token: "",
+  id: "",
+  listArray: [],
+  itemsArray: [],
+  locationArray: []
+};
 
-/* TODO create an ajax request to get the user's home location */
+user.token = localStorage.getItem('jwt');
+const BASE = 'http://localhost:4000';
+
+console.log('token', user.token);
+
+// console.log($here);
+
+if (!!user.token) {
+  //send data to server
+  fetch(`${BASE}/api/v1/profile`, {
+    method: 'POST',
+    headers: {
+      'authorization': `bearer ${user.token}`,
+    }
+  })
+    .then(res => res.json())
+    .then((data) => {
+      user.id = data._id;
+      console.log(user.id);
+      console.log('data', data);
+      render(data);
+    })
+    .catch(err => console.log(err))
+} else {
+  window.location = '/login';
+}
 
 function initMap() {
   var sf = new google.maps.LatLng(37.773972, -122.431297);
@@ -25,10 +57,10 @@ function initMap() {
   service.findPlaceFromQuery(request, function (results, status) {
     if (status === google.maps.places.PlacesServiceStatus.OK) {
       for (var i = 0; i < results.length; i++) {
-        console.log(results[i]);
-        console.log(results[i].name);
-        console.log(results[i].geometry.location.lat());
-        console.log(results[i].geometry.location.lng());
+        // console.log(results[i]);
+        // console.log(results[i].name);
+        // console.log(results[i].geometry.location.lat());
+        // console.log(results[i].geometry.location.lng());
         createMarker(results[i]);
       }
 
@@ -39,6 +71,7 @@ function initMap() {
 }
 
 function createMarker(place) {
+  console.log(place);
   var marker = new google.maps.Marker({
     map: map,
     position: place.geometry.location
@@ -66,7 +99,7 @@ function createMarker(place) {
 const createMarkers = (array) => {
   let zIndexNum = array.length;
   array.forEach(location => {
-    console.log(location);
+    // console.log(location);
     let name = location.locationName;
     let toDoList = location.toDoList[0]
     /* TODO refactor this function into an async/await function to return the number of items in the list before completing this loop */
@@ -108,7 +141,7 @@ function getLocations() {
 
 /* Created this to get the count of the items in the todo list, it works but it's not in sync with the loop. It fires off after the markers are already created */
 function getToDoList(id) {
-  console.log('starting request');
+  // console.log('starting request');
   $.ajax({
     method: 'GET',
     url: `http://localhost:4000/api/v1/list/detail/${id}`,
@@ -117,18 +150,18 @@ function getToDoList(id) {
   });
 }
 
-let locationArray = []
+
 
 const onSuccess = response => {
-  locationArray = response.data;
+  user.locationArray = response.data;
   // console.log(locationArray);
   createMarkers(response.data);
 }
 const onSuccessList = response => {
   itemLen = response.data.item.length;
-  console.log(itemLen);
-  console.log('ending request');
-  return listObj
+  // console.log(itemLen);
+  // console.log('ending request');
+  return itemLen
   // createMarkers(response.data);
 }
 function onError() {

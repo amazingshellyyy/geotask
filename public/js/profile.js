@@ -11,7 +11,7 @@ if (!!token) {
   fetch(`${BASE}/api/v1/profile`, {
     method: 'POST',
     headers: {
-      'Authorization': `bearer ${token}`,
+      'authorization': `bearer ${token}`,
     }
   })
     .then(res => res.json())
@@ -26,5 +26,5 @@ if (!!token) {
 
 
 const render = (data) => {
-  $('body').append(`<ul><li>${data._id}</li><li>${data.email}</li></ul>`)
+  $('.profile').append(`<ul><li>Email: ${data.email}</li></ul>`)
 }
