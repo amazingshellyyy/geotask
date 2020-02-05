@@ -46,6 +46,7 @@ const create = (req, res) => {
               .json({ message: 'Something went wrong.', err: err });
           }
           createdToDoList.location = createdLocation._id;
+          createdToDoList.user = req.curUserId; 
         })
         const Items = req.body.items;
         console.log('if',req.body.items);
