@@ -23,7 +23,7 @@ const index = (req, res) => {
 // List Create
 const create = (req, res) => {
   //create ToDoList and get Id
-  db.Location.findOne({ locationName: "New York" }, (err, foundLocation) => {
+  db.Location.findOne({ locationName: req.body.location.locationName }, (err, foundLocation) => {
     if (err) {
       // return to exit
       return res
@@ -155,10 +155,12 @@ const update = (req, res) => {
     db.Location.findOne({locationName: req.body.location.locationName}, (err, foundLocation)=> {
       if (err) return res.status(500).json({ message: 'Something went wrong.', err: err });
       if (!foundLocation) {
-        db.Location.create(res.body.location, (err, createdLocation)=> {
+        db.Location.create(req.body.location, (err, createdLocation)=> {
           if (err) return res.status(500).json({ message: 'Something went wrong.', err: err });
+          console.log(createdLocation);
+          foundToDoList.location = createdLocation._id;
         })
-        foundToDoList.location = createdLocation._id;
+        
       } else if (foundLocation._id !== foundToDoList.location) {
         foundToDoList.location = foundLocation._id;
       }
