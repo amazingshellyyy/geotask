@@ -1,5 +1,7 @@
 console.log('hii');
 const BASE = 'http://localhost:4000';
+const token = localStorage.getItem('jwt');
+
 // const $addBtn = $('#addItem');
 
 
@@ -58,6 +60,7 @@ $form.on('submit', () => {
   listData.list = list;
   listData.location = location;
   listData.items = items;
+  listData.curUserId = token;
   console.log(listData);
   //fetch list
   if (formIsValid) {
@@ -66,6 +69,7 @@ $form.on('submit', () => {
       method: 'POST',
       headers: {
         'content-Type': 'application/json',
+        'authorization': `bearer ${token}`,
       },
       body: JSON.stringify(listData),
     })
