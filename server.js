@@ -81,7 +81,7 @@ app.post('/api/v1/list/create', ctrl.toDoList.create);
 // List Show
 app.get('/api/v1/list/detail/:id', ctrl.toDoList.show);
 // List Update Title
-app.put('/api/v1/list/detail/:id', ctrl.toDoList.updateTitle);
+app.put('/api/v1/list/detail/:id', ctrl.toDoList.update);
 // List Delete
 app.delete('/api/v1/list/detail/:id', ctrl.toDoList.destroy);
 
