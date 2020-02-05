@@ -3,7 +3,38 @@ const BASE = 'http://localhost:4000';
 const token = localStorage.getItem('jwt');
 
 // const $addBtn = $('#addItem');
+/* Google Api */
+var searchInput = 'locationName';
+var autocomplete;
+autocomplete = new google.maps.places.Autocomplete((document.getElementById(searchInput)), {
+  types: ['geocode'],
+  componentRestrictions: {
+    country: "USA",
+  },
+  radius: '500'
+});
+google.maps.event.addListener(autocomplete, 'place_changed', function () {
+  var near_place = autocomplete.getPlace();
+  document.getElementById('latitude').value = near_place.geometry.location.lat();
+  document.getElementById('longitude').value = near_place.geometry.location.lng();
+  document.getElementById('latitude_view').innerHTML = near_place.geometry.location.lat();
+  document.getElementById('longitude_view').innerHTML = near_place.geometry.location.lng();
 
+});
+// $(document).on('change', '#' + searchInput, function () {
+//   document.getElementById('latitude_input').value = '';
+//   document.getElementById('longitude_input').value = '';
+//   document.getElementById('latitude_view').innerHTML = '';
+//   document.getElementById('longitude_view').innerHTML = '';
+// });
+
+$('#searchInput').on('keyup', ()=> {
+  document.getElementById('latitude_input').value = '';
+  document.getElementById('longitude_input').value = '';
+  document.getElementById('latitude_view').innerHTML = '';
+  document.getElementById('longitude_view').innerHTML = '';
+})
+/* ------ */
 
 const clearAlertMessage = () => {
   document.querySelectorAll('.alert').forEach(ele => {
@@ -25,7 +56,7 @@ $form.on('submit', () => {
   const $formEle = $form.prop('elements');
   const formInput = [...$formEle];
   console.log('hiiiii');
- 
+
 
   let formIsValid = true;
   //check valid and filter out button
@@ -36,11 +67,11 @@ $form.on('submit', () => {
       formIsValid = false;
       formInput[i].classList.add('input-error');
       formInput[i].insertAdjacentHTML('afterend', `<div class="alert">Please enter valid information</div>`)
-    } 
+    }
   }
-  const toDo = formInput.slice(0,2);
-  const loca = formInput.slice(2,3);
-  const it = formInput.slice(3, formInput.length-1);
+  const toDo = formInput.slice(0, 2);
+  const loca = formInput.slice(2, 5);
+  const it = formInput.slice(5, formInput.length - 1);
   console.log(toDo);
   console.log(loca);
   console.log(it);
@@ -90,11 +121,11 @@ $form.on('submit', () => {
         // output : http://demourl.com/path?id=100&id=101&id=102&topic=main
         console.log(new_url);
         window.location = new_url;
-        
+
       })
       .catch(err => console.log(err))
 
-  }
+  } 
 
 
 })
@@ -115,7 +146,7 @@ $addBtn.on('click', () => {
 </li>`)
 })
 
-$addItemlist.on('click', '.addItem', ()=>{
+$addItemlist.on('click', '.addItem', () => {
   event.preventDefault();
   $(event.target).css("display", 'none');
   $addItemlist.append(`<li>
