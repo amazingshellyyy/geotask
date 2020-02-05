@@ -37,6 +37,15 @@ if (!!user.token) {
   window.location = '/login';
 }
 
+function getLists() {
+  $.ajax({
+    method: 'GET',
+    url: "http://localhost:4000/api/v1/list/index",
+    success: onSuccessUser,
+    error: onError
+  });
+}
+
 function initMap() {
   var sf = new google.maps.LatLng(37.773972, -122.431297);
 
@@ -164,8 +173,16 @@ const onSuccessList = response => {
   return itemLen
   // createMarkers(response.data);
 }
+
+const onSuccessUser = response => {
+  console.log(response);
+  // user.listArray = response.filter(obj => {
+  //   return obj.user === userId;
+  // })
+}
 function onError() {
   console.log('error');
 }
 
 initMap();
+getLists();
