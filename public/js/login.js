@@ -46,7 +46,7 @@ const handleLogIn = ()=> {
       })
         .then(res => res.json())
         .then((data) => {
-          const jwt = data.jwt
+          const jwt = data.jwt;
           localStorage.setItem('jwt', jwt);
           window.location =  '/profile';
         })

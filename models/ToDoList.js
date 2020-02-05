@@ -17,7 +17,7 @@ const toDoListSchema = new Schema({
     required: true
   },
   dateCreated: Date,
-  dateDue: Date,
+  dateDue: String,
   /* TODO Update dateUpdated to pass the current date. */
   dateUpdated: Date,
   location: {

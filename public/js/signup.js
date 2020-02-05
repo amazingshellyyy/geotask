@@ -48,8 +48,7 @@ const handleSignUp = ()=> {
       })
         .then(res => res.json())
         .then((data) => {
-          console.log('data',data);
-          const jwt = data.jwt
+          const jwt = data.jwt;
           localStorage.setItem('jwt', jwt);
           window.location =  '/profile';
          
@@ -77,7 +76,7 @@ function onSignIn(googleUser) {
     GoogleToken: id_token
   };
 
-  console.log(socialUserData);
+  console.log('socialUserData',socialUserData);
   fetch(`${BASE}/api/v1/socialSignup`, {
         method: 'POST',
         headers: {
@@ -90,7 +89,7 @@ function onSignIn(googleUser) {
           console.log('data',data);
           const jwt = data.jwt;
           localStorage.setItem('jwt', jwt);
-          // window.location =  '/profile';
+          window.location =  '/profile';
         })
         .catch(err => console.log(err))
     

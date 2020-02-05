@@ -33,7 +33,7 @@ const signup = (req, res) => {
         console.log('afterhash', hash);
         db.User.create(newUser, (err, createdUser) => {
           if (err) return res.status(400).json({ message: "Bad Request, Please try again", err: err.errmsg });
-          jwt.sign({ foo: newUser._id }, 'shhhhh', { expiresIn: '10h' }, (err, jwt) => {
+          jwt.sign({ foo: createdUser._id }, 'shhhhh', { expiresIn: '10h' }, (err, jwt) => {
             if (err) return res.status(500).json({
               status: 503,
               errors: [{ message: 'access forbidden' }],
@@ -41,11 +41,13 @@ const signup = (req, res) => {
             res.status(200).json({ jwt });
             // res.status(201).json({message: 'Logged In'});
           });
+
         });
 
-        
+
       });
     });
+
   });
 
 }
@@ -106,8 +108,15 @@ const socialSignup = (req, res) => {
   });
   db.User.create(userData, (err, createdUser) => {
     if (err) return res.status(400).json({ message: "Bad Request, Please try again", err: err.errmsg });
-    res.status(201).json(createdUser);
-    // res.json({message: 'It is from Google!'});
+    console.log('createdUser',createdUser);
+    jwt.sign({ foo: createdUser._id }, 'shhhhh', { expiresIn: '10h' }, (err, jwt) => {
+      if (err) return res.status(500).json({
+        status: 503,
+        errors: [{ message: 'access forbidden' }],
+      });
+      console.log(jwt);
+      res.status(200).json({ jwt });
+   });  
   });
 }
 
@@ -138,7 +147,7 @@ const socialLogin = (req, res) => {
         });
       }
     };
-})
+  })
 }
 
 module.exports = {
