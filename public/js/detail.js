@@ -43,11 +43,11 @@ const render = (list) => {
   </div>
   <ul class="list-unstyled itemList">
     <div>Item</div>
-    <button class="addItem">+</button>
+    
   </ul>
   
-  <button class="delete btn-secondary">Delete</button>
-  <button type="submit" class="save btn-primary" style="display: none">Save</button>
+  <button type="submit" class="save btn-primary float-right" style="display: none">Save</button>
+  <button class="delete btn-secondary float-right">Delete</button>
 `)
 
 const itemList = list.item;
@@ -58,14 +58,17 @@ for (let i = 0; i < itemList.length; i++) {
     $('.itemList').append(`<li>
     <div class="form-check">
       <input type="checkbox" class="form-check-input">
-      <input id="item${i}" type="text" value="${item.itemName}">
+      <input id="item${i}" type="text" value="${item.itemName}" required="true">
+      <a href="" class="float-right delItem">delete</a>
     </div>
+    <button class="addItem">+</button>
   </li>`)
   } else {
     $('.itemList').append(`<li>
   <div class="form-check">
     <input type="checkbox" class="form-check-input">
-    <input id="item${i}" type="text" value="${item.itemName}">
+    <input id="item${i}" type="text" value="${item.itemName}" required="true">
+    <a href="" class="float-right delItem">delete</a>
   </div>
 </li>`)
   }
@@ -77,6 +80,16 @@ for (let i = 0; i < itemList.length; i++) {
   }
 }
 
+console.log($('.itemList'));
+console.log($('.delItem'))
+$('.itemList').on('click', '.delItem', ()=> {
+  console.log(event.target);
+  event.preventDefault();
+  $(event.target).parent().remove();
+  $('button').css('display','');
+})
+
+
 const $addBtn = $('.addItem');
 const $addItemlist = $('.itemList');
 
@@ -87,18 +100,41 @@ $addItemlist.on('click', '.addItem', ()=>{
   $addItemlist.append(`<li>
   <div class="form-check">
     <input type="checkbox" class="form-check-input">
-    <input type="text" class="blank">
-    <button class="addItem">+</button>
+    <input type="text" class="blank" required="true">
+    <a href="" class="float-right delItem">delete</a>
   </div>
+  <button class="addItem">+</button>
 </li>`)
-$(event.target).css("display", 'none');
+// $(event.target).css("display", 'none');
+$(event.target).remove();
 })
 }
 
-
+$form.on('click', '.delete', ()=> {
+  console.log('delete button');
+  if(confirm('Are you sure you want to delete the list?')){
+    fetch(`/api/v1/list/detail/${listId}`, {
+      method: 'DELETE',
+      headers: {
+        'content-Type': 'application/json',
+      },
+      // body: JSON.stringify(listData),
+    })
+      .then(res => res.json())
+      .then((data) => {
+        console.log('data',data);
+        window.location = '/';
+        
+      })
+      .catch(err => console.log(err))
+  } 
+})
 $form.on('click', 'input', ()=> {
   $('button').css('display','')
 })
+
+
+
 const clearAlertMessage = () => {
   document.querySelectorAll('.alert').forEach(ele => {
     ele.remove();
@@ -184,7 +220,7 @@ $form.on('submit', ()=> {
       .then(res => res.json())
       .then((data) => {
         console.log('data', data);
-        location.reload();
+        // location.reload();
       })
       .catch(err => console.log(err))
   }
@@ -193,7 +229,6 @@ $form.on('submit', ()=> {
   $('.save').css('display', 'none');
 
 })
-
 
 
  

@@ -206,12 +206,8 @@ const update = (req, res) => {
 // List Delete
 const destroy = (req, res) => {
   db.ToDoList.findByIdAndDelete(req.params.id, (error, deletedToDoList) => {
-    if (error) {
-      // return to exit
-      return res
-        .status(500)
-        .json({ message: 'Something went wrong.', error: error });
-    }
+    if (error) return res.status(500).json({ message: 'Something went wrong.', error: error });
+    
     const responseObj = {
       status: 200,
       data: deletedToDoList,
