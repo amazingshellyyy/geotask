@@ -79,7 +79,7 @@ app.get('/api/v1/list/index', ctrl.toDoList.index);
 // List Create
 app.post('/api/v1/list/create', mw.auth.verify, ctrl.toDoList.create);
 // List Show
-app.get('/api/v1/list/detail/:id', ctrl.toDoList.show);
+app.get('/api/v1/list/detail/:id', mw.auth.verify, ctrl.toDoList.show);
 // List Update Title
 app.put('/api/v1/list/detail/:id', ctrl.toDoList.update);
 // List Delete

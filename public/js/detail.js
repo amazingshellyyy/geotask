@@ -1,6 +1,7 @@
 console.log('ToDo!');
 const BASE = 'http://localhost:4000';
 const $form = $('form');
+const token = localStorage.getItem('jwt');
 // console.log($form);
 
 
@@ -13,6 +14,7 @@ fetch(`/api/v1/list/detail/${listId}`, {
   method: 'GET',
   headers: {
     'content-Type': 'application/json',
+    'authorization': `bearer ${token}`,
   },
   // body: JSON.stringify(listData),
 })
