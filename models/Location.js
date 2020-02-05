@@ -13,7 +13,7 @@ const locationSchema = new Schema({
     type: String,
     required: true
   },
-  lattitude: Number,
+  latitude: Number,
   longitude: Number,
   toDoList: [{
     type: Schema.Types.ObjectId,
