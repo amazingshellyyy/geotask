@@ -1,7 +1,31 @@
 console.log('hii');
 const BASE = 'http://localhost:4000';
 // const $addBtn = $('#addItem');
+/* Google Api */
+let searchInput = $('#locationName');
+$(document).ready(()=>{
+  let autocomplete;
+  autocomplete = new google.map.places.Autocomplete((searchInput), {
+    types: ['geocode']
+  });
+  
+  google.maps.event.addListener(autocomplete, 'place_changed', ()=> {
+    let near_place = autocomplete.getPlace();
+    $('#latitude_input').value = near_place.geometry.location.lat();
+    $('#longitude_input').value = near_place.geometry.location.lng();
+    $('#latitude_view').innerHTML = near_place.geometry.location.lng();
+    $('#longitude_view').innerHTML = near_place.geometry.location.lng();
+  })
+})
 
+$(document).on('change', '#'+searchInput), ()=>{
+  $('#latitude_input').value = '';
+  $('#longitude_input').value = '';
+  $('#latitude_view').innerHTML = '';
+  $('#longitude_view').innerHTML = '';
+}
+
+/* ------ */
 
 const clearAlertMessage = () => {
   document.querySelectorAll('.alert').forEach(ele => {

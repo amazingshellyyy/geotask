@@ -7,6 +7,9 @@
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
     integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
   <title>Create a list</title>
+  <!-- google API KEY -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDbyo4qjNSLbRJwJ11yL8YGedfTBGHZZmU&libraries=geometry,places&" defer></script>
   <script
   src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
   integrity="sha256-pasqAKBDmFT4eHoN2ndd6lN370kFiGUFyTiUHWhU7k8="
@@ -28,7 +31,14 @@
     </div>
     <div class="form-group">
       <label for="locationName">Location</label>
-      <input type="text" class="form-control" id="locationName" placeholder="location" name="locationName">
+      <input type="text" class="form-control" id="locationName" placeholder="type address..." name="locationName">
+      <input type="hidden" id="latitude_input">
+      <input type="hidden" id="longtitude_input">   
+    </div>
+    <div class="latlong-view">
+      <p><b>Latitude: </b><span id="latitude_view"></span></p>
+      <p><b>Longitude: </b><span id="longitude_view"></span></p>
+    </div>
     </div>
     <ul class="list-unstyled">
       <div>Item</div>
