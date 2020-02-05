@@ -1,7 +1,7 @@
 /* -------- Location Schema Outline -------- */
 // LocationID
 // locationName - string
-// lattitude - number (float)
+// latitude - number (float)
 // longitude - number (float)
 // ToDoListId - ref
 
@@ -13,7 +13,7 @@ const locationSchema = new Schema({
     type: String,
     required: true
   },
-  lattitude: Number,
+  latitude: Number,
   longitude: Number,
   toDoList: [{
     type: Schema.Types.ObjectId,

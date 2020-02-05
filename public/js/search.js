@@ -5,9 +5,7 @@ var infowindow;
 let user = {
   token: "",
   id: "",
-  listArray: [],
-  itemsArray: [],
-  locationArray: []
+  data: {},
 };
 
 user.token = localStorage.getItem('jwt');
@@ -29,21 +27,14 @@ if (!!user.token) {
     .then((data) => {
       user.id = data._id;
       console.log(user.id);
+      user.data = data;
       console.log('data', data);
-      render(data);
+      initMap();
+      // render(data);
     })
     .catch(err => console.log(err))
 } else {
   window.location = '/login';
-}
-
-function getLists() {
-  $.ajax({
-    method: 'GET',
-    url: "http://localhost:4000/api/v1/list/index",
-    success: onSuccessUser,
-    error: onError
-  });
 }
 
 function initMap() {
@@ -53,79 +44,29 @@ function initMap() {
 
   map = new google.maps.Map(
     document.getElementById('map'), { center: sf, zoom: 15 });
-
-  /* TODO Move this Places request to another file. */
-  /* This Places request should be used for searching for locations, not for placing markers on the map from the list locations database. */
-  var request = {
-    query: "cvs",
-    fields: ['name', 'geometry'],
-  };
-
-  service = new google.maps.places.PlacesService(map);
-
-  service.findPlaceFromQuery(request, function (results, status) {
-    if (status === google.maps.places.PlacesServiceStatus.OK) {
-      for (var i = 0; i < results.length; i++) {
-        // console.log(results[i]);
-        // console.log(results[i].name);
-        // console.log(results[i].geometry.location.lat());
-        // console.log(results[i].geometry.location.lng());
-        createMarker(results[i]);
-      }
-
-      map.setCenter(results[0].geometry.location);
-    }
-  });
-  getLocations();
+  createMarkers(user.data.toDoList);
 }
-
-function createMarker(place) {
-  console.log(place);
-  var marker = new google.maps.Marker({
-    map: map,
-    position: place.geometry.location
-  });
-
-  google.maps.event.addListener(marker, 'click', function () {
-    infowindow.setContent(place.name);
-    infowindow.open(map, this);
-  });
-
-  // var labels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-  // var markers = locations.map(function (location, i) {
-  //   return new google.maps.Marker({
-  //     position: location,
-  //     label: labels[i % labels.length]
-  //   });
-  // });
-
-  // Add a marker clusterer to manage the markers.
-  // var markerCluster = new MarkerClusterer(map, markers,
-  //   { imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m' });
-}
-
 
 const createMarkers = (array) => {
+  console.log(array);
+  console.log(array.length);
   let zIndexNum = array.length;
-  array.forEach(location => {
-    // console.log(location);
-    let name = location.locationName;
-    let toDoList = location.toDoList[0]
-    /* TODO refactor this function into an async/await function to return the number of items in the list before completing this loop */
-    getToDoList(toDoList);
-    let toDoListItems = []
-    // console.log(location.toDoList[0]);
-    // console.log(name);
-    // console.log(location.longitude);
-    // console.log(location.lattitude);
-    const latLng = new google.maps.LatLng(location.lattitude, location.longitude);
-    // console.log(latLng);
+  array.forEach(list => {
+    let name = list.location.locationName;
+    console.log(name);
 
+    let lat = list.location.latitude;
+    let lng = list.location.longitude;
+    const latLng = new google.maps.LatLng(lat, lng);
+
+    let itemLength = list.item.length;
+    console.log(list.item);
     // Placing markers on the map
     let newMarker = new google.maps.Marker({
       title: name,
       position: latLng,
       map: map,
+      label: `${itemLength}`,
       animation: google.maps.Animation.DROP,
       /* TODO add number returned from ajax request to marker */
       // label: //should be number returned from ajax request to list items
@@ -135,54 +76,81 @@ const createMarkers = (array) => {
       infowindow.setContent(name);
       infowindow.open(map, this);
     });
+
     zIndexNum--
   });
 }
 
-function getLocations() {
-  $.ajax({
-    method: 'GET',
-    url: "http://localhost:4000/api/v1/location/index",
-    success: onSuccess,
-    error: onError
-  });
-}
-
-/* Created this to get the count of the items in the todo list, it works but it's not in sync with the loop. It fires off after the markers are already created */
-function getToDoList(id) {
-  // console.log('starting request');
-  $.ajax({
-    method: 'GET',
-    url: `http://localhost:4000/api/v1/list/detail/${id}`,
-    success: onSuccessList,
-    error: onError
-  });
-}
 
 
+// function getLists() {
+//   $.ajax({
+//     method: 'GET',
+//     url: "http://localhost:4000/api/v1/list/index",
+//     success: onSuccessUser,
+//     error: onError
+//   });
+// };
 
-const onSuccess = response => {
-  user.locationArray = response.data;
-  // console.log(locationArray);
-  createMarkers(response.data);
-}
-const onSuccessList = response => {
-  itemLen = response.data.item.length;
-  // console.log(itemLen);
-  // console.log('ending request');
-  return itemLen
-  // createMarkers(response.data);
-}
+// const onSuccessUser = response => {
+//   // console.log(response.data);
+//   user.listArray = response.data.filter(obj => {
+//     return obj.user === user.id;
+//   })
+//   console.log(user.listArray);
+//   findLocation();
+// }
 
-const onSuccessUser = response => {
-  console.log(response);
-  // user.listArray = response.filter(obj => {
-  //   return obj.user === userId;
-  // })
-}
-function onError() {
-  console.log('error');
-}
+// function getLocations() {
+//   $.ajax({
+//     method: 'GET',
+//     url: "http://localhost:4000/api/v1/location/index",
+//     success: onSuccess,
+//     error: onError
+//   });
+// };
 
-initMap();
-getLists();
+// const onSuccess = response => {
+//   user.locationArray = response.data;
+//   // console.log(locationArray);
+//   createMarkers(response.data);
+// };
+
+// /* Created this to get the count of the items in the todo list, it works but it's not in sync with the loop. It fires off after the markers are already created */
+// function getToDoList(id) {
+//   // console.log('starting request');
+//   $.ajax({
+//     method: 'GET',
+//     url: `http://localhost:4000/api/v1/list/detail/${id}`,
+//     success: onSuccessList,
+//     error: onError
+//   });
+// };
+
+// const onSuccessList = response => {
+//   itemLen = response.data.item.length;
+//   // console.log(itemLen);
+//   // console.log('ending request');
+//   return itemLen
+//   // createMarkers(response.data);
+// };
+
+// const findLocation = (locationId) => {
+//   $.ajax({
+//     method: 'GET',
+//     url: `http://localhost:4000/api/v1/location/${locationId}`,
+//     success: onSuccessLocation,
+//     error: onError
+//   });
+// }
+
+// const onSuccessLocation = response => {
+//   console.log(response)
+// }
+
+// function onError() {
+//   console.log('error');
+// }
+
+// getLists();
+// initMap();
