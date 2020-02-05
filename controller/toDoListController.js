@@ -2,7 +2,7 @@ const db = require('../models');
 
 // List Index
 const index = (req, res) => {
-  db.ToDoList.find({ )
+  db.ToDoList.find({ })
     .populate('item')
     .exec((error, indexToDoList) => {
       if (error) {
