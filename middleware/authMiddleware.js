@@ -16,7 +16,7 @@ const verify = (req, res, next) => {
       // console.log(decoded.foo);// bar, foundUser._id
       // const UserId = decoded.foo;
       console.log(decoded);
-      console.log('decode token',decoded.foo);
+      console.log('curUserId',decoded.foo);
       
       req.curUserId = decoded.foo;
       // res.json({ message: 'Authorized', userIddecode: decoded.foo });
