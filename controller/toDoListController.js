@@ -56,15 +56,9 @@ const show = (req, res) => {
       };
       res.status(200).json(responseObj);
     });
-  // db.ToDoList.findById(req.params.id, (err, foundList) => {
-  //   if (err) res.status(400).json(err);
-
-  //   res.json(foundList);
-  // })
 };
 
 // List Update
-// TODO Update this for async await to populate list items.
 const updateTitle = (req, res) => {
   db.ToDoList.findByIdAndUpdate(
     req.params.id,
@@ -85,8 +79,6 @@ const updateTitle = (req, res) => {
       res.status(200).json(responseObj);
     });
 };
-
-
 
 // List Delete
 const destroy = (req, res) => {

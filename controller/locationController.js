@@ -28,7 +28,6 @@ const create = async (req, res) => {
     console.log('Assigning New Location');
     const newLocation = await db.Location.create(req.body);
     console.log('Updating Todo List with New Location');
-    /* TODO BUG - the location is not saving to the todolist */
     foundToDoList.location = newLocation;
     console.log('Saving Todo List');
     const savedToDoList = await foundToDoList.save();

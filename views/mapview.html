@@ -1,13 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Here is the map!</title>
-</head>
-<body>
-  <h2>Map View</h2>
-  <!-- map below -->
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <style>
+      /* Always set the map height explicitly to define the size of the div
+               * element that contains the map. */
+      #map {
+        height: 100%;
+      }
+
+      /* Optional: Makes the sample page fill the window. */
+      html,
+      body {
+        height: 90%;
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+
+    <!-- jQuery -->
+    <script defer src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://unpkg.com/@google/markerclustererplus@4.0.1/dist/markerclustererplus.min.js"></script>
+    <!-- Google Maps API -->
+    <script
+      defer
+      type="text/javascript"
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBHLett8djBo62dDXj0EjCimF8Rd6E8cxg&libraries=places"
+    ></script>
+    <script defer src="/js/search.js"></script>
+    <title>Here is the map!</title>
+  </head>
+  <body>
+    <h2>Map View</h2>
+    <div id="map"></div>
+    <!-- <button id="more">more</button> -->
+  </body>
 </html>
