@@ -1,17 +1,8 @@
 console.log('hii');
 const BASE = 'http://localhost:4000';
 // const $addBtn = $('#addItem');
-const $addBtn = $('.addItem');
-const $addItemlist = $('ul');
-// console.log($addItemlist);
-// console.log($addBtn);
-$addBtn.on('click', () => {
-  event.preventDefault();
-  console.log('click!');
-  $addItemlist.append(`<div>
-  <input type="text" class="item" id="" name="item" placeholder="items to add">
-</div>`)
-})
+
+
 const clearAlertMessage = () => {
   document.querySelectorAll('.alert').forEach(ele => {
     ele.remove();
@@ -26,12 +17,16 @@ $form.on('submit', () => {
   clearAlertMessage();
   event.preventDefault();
   const listData = {};
+  const list = {};
+  const location = {};
+  const items = [];
   const $formEle = $form.prop('elements');
   const formInput = [...$formEle];
   console.log('hiiiii');
-  console.log(formInput);
+ 
 
   let formIsValid = true;
+  //check valid and filter out button
   for (let i = 0; i < formInput.length; i++) {
     if (formInput[i].localName === 'button') {
       formInput.splice(i, 1);
@@ -39,13 +34,31 @@ $form.on('submit', () => {
       formIsValid = false;
       formInput[i].classList.add('input-error');
       formInput[i].insertAdjacentHTML('afterend', `<div class="alert">Please enter valid information</div>`)
-    } else {
-      listData[formInput[i].id] = formInput[i].value;
-    }
+    } 
   }
+  const toDo = formInput.slice(0,2);
+  const loca = formInput.slice(2,3);
+  const it = formInput.slice(3, formInput.length-1);
+  console.log(toDo);
+  console.log(loca);
+  console.log(it);
+  toDo.forEach(input => {
+    list[`${input.id}`] = input.value;
+  })
+  loca.forEach(input => {
+    location[`${input.id}`] = input.value;
+  })
+  it.forEach(input => {
+    items.push(`${input.value}`);
+  })
 
-  console.log('listData', listData);
-
+  console.log(list);
+  console.log(location);
+  console.log(items);
+  listData.list = list;
+  listData.location = location;
+  listData.items = items;
+  console.log(listData);
   //fetch list
   if (formIsValid) {
     //send data to server
@@ -61,8 +74,8 @@ $form.on('submit', () => {
         // const jwt = data.jwt;
         // localStorage.setItem('jwt', jwt);
         // window.location =  '/profile';
-        console.log('data', data.data._id);
-        const listId = data.data._id;
+        console.log('data', data);
+        const listId = data.createdToDoList._id;
         let url = new URL(`${BASE}/detail`);
         let query_string = url.search;
         let search_params = new URLSearchParams(query_string);
@@ -81,9 +94,31 @@ $form.on('submit', () => {
 
 
 })
+const $addBtn = $('.addItem');
+const $addItemlist = $('ul');
+// console.log($addItemlist);
+// console.log($addBtn);
+// console.log($('form > ul'));
+$addBtn.on('click', () => {
+  event.preventDefault();
+  console.log('click!');
+  $(this).append(`<li>
+  <div class="form-check">
+    <input type="checkbox" class="form-check-input" id="exampleCheck1">
+    <input type="text">
+    <button class="addItem">+</button>
+  </div>
+</li>`)
+})
 
-
-
-
-
+$addItemlist.on('click', '.addItem', ()=>{
+  event.preventDefault();
+  $(event.target).css("display", 'none');
+  $addItemlist.append(`<li>
+  <div class="form-check">
+    <input type="text">
+    <button class="addItem">+</button>
+  </div>
+</li>`)
+})
 

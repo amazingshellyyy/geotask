@@ -22,24 +22,104 @@ const index = (req, res) => {
 
 // List Create
 const create = (req, res) => {
-  db.ToDoList.create(req.body, (error, createdToDoList) => {
-    if (error) {
+  //create ToDoList and get Id
+  db.Location.findOne({ locationName: "New York" }, (err, foundLocation) => {
+    if (err) {
       // return to exit
       return res
         .status(500)
-        .json({ message: 'Something went wrong.', error: error });
+        .json({ message: 'Something went wrong.', err: err });
     }
-    const responseObj = {
-      status: 200,
-      data: createdToDoList,
-      requestedAt: new Date().toLocaleString()
-    };
-    res.status(200).json(responseObj);
+    if (!foundLocation) {
+      db.ToDoList.create(req.body.list, (err, createdToDoList) => {
+        if (err) {
+          // return to exit
+          return res
+            .status(500)
+            .json({ message: 'Something went wrong.', err: err });
+        }
+        db.Location.create(req.body.location, (err, createdLocation) => {
+          if (err) {
+            // return to exit
+            return res
+              .status(500)
+              .json({ message: 'Something went wrong.', err: err });
+          }
+          createdToDoList.location = createdLocation._id;
+        })
+        const Items = req.body.items;
+        console.log('if',req.body.items);
+        for (let i = 0; i < Items.length; i++) {
+          const item = Items[i];
+          const itemObj = {
+            itemName: item,
+            status: false,
+          }
+          db.Item.create(itemObj, (err, createdItem) => {
+            if (err) {
+              // return to exit
+              return res
+                .status(500)
+                .json({ message: 'Something went wrong.', err: err });
+            }
+            console.log('createdItem',createdItem);
+            createdToDoList.item.push(createdItem._id);
+            if(i === Items.length-1){
+              createdToDoList.save();
+              console.log(createdToDoList);
+              return res.json({createdToDoList});
+            }
+          })
+          
+        }
+      })
+    } else {
+      db.ToDoList.create(req.body.list, (err, createdToDoList) => {
+        if (err) {
+          // return to exit
+          return res
+            .status(500)
+            .json({ message: 'Something went wrong.', err: err });
+        }
+        createdToDoList.location = foundLocation._id;
+        const Items = req.body.items;
+        console.log('else',req.body.items);
+        console.log('else',Items);
+        for (let i = 0; i < Items.length; i++) {
+          const item = Items[i];
+          const itemObj = {
+            itemName: item,
+            status: false,
+          }
+          
+          db.Item.create(itemObj, (err, createdItem) => {
+            if (err) {
+              // return to exit
+              return res
+                .status(500)
+                .json({ message: 'Something went wrong.', err: err });
+            }
+            createdToDoList.item.push(createdItem._id);
+            if(i === Items.length-1){
+              createdToDoList.save();
+              console.log(createdToDoList);
+              return res.json({createdToDoList});
+            }
+          })
+          
+        }
+        
+      })
+    }
   });
+  
+  
+  
 };
 
 // List Show
 const show = (req, res) => {
+  console.log(req.params);
   db.ToDoList.findById(req.params.id)
     .populate('item')
     .exec((error, updatedToDoList) => {
