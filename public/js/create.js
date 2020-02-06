@@ -1,4 +1,3 @@
-console.log('hii');
 const BASE = 'http://localhost:4000';
 const token = localStorage.getItem('jwt');
 
@@ -28,7 +27,7 @@ google.maps.event.addListener(autocomplete, 'place_changed', function () {
 //   document.getElementById('longitude_view').innerHTML = '';
 // });
 
-$('#searchInput').on('keyup', ()=> {
+$('#searchInput').on('keyup', () => {
   document.getElementById('latitude_input').value = '';
   document.getElementById('longitude_input').value = '';
   document.getElementById('latitude_view').innerHTML = '';
@@ -55,7 +54,6 @@ $form.on('submit', () => {
   const items = [];
   const $formEle = $form.prop('elements');
   const formInput = [...$formEle];
-  console.log('hiiiii');
 
 
   let formIsValid = true;
@@ -72,9 +70,7 @@ $form.on('submit', () => {
   const toDo = formInput.slice(0, 2);
   const loca = formInput.slice(2, 5);
   const it = formInput.slice(5, formInput.length - 1);
-  console.log(toDo);
-  console.log(loca);
-  console.log(it);
+
   toDo.forEach(input => {
     list[`${input.id}`] = input.value;
   })
@@ -85,14 +81,11 @@ $form.on('submit', () => {
     items.push(`${input.value}`);
   })
 
-  console.log(list);
-  console.log(location);
-  console.log(items);
   listData.list = list;
   listData.location = location;
   listData.items = items;
   listData.curUserId = token;
-  console.log(listData);
+
   //fetch list
   if (formIsValid) {
     //send data to server
@@ -106,10 +99,7 @@ $form.on('submit', () => {
     })
       .then(res => res.json())
       .then((data) => {
-        // const jwt = data.jwt;
-        // localStorage.setItem('jwt', jwt);
-        // window.location =  '/profile';
-        console.log('data', data);
+
         const listId = data.createdToDoList._id;
         let url = new URL(`${BASE}/detail`);
         let query_string = url.search;
@@ -118,25 +108,19 @@ $form.on('submit', () => {
         url.search = search_params.toString();
         let new_url = url.toString();
 
-        // output : http://demourl.com/path?id=100&id=101&id=102&topic=main
-        console.log(new_url);
         window.location = new_url;
 
       })
       .catch(err => console.log(err))
 
-  } 
+  }
 
 
 })
 const $addBtn = $('.addItem');
 const $addItemlist = $('ul');
-// console.log($addItemlist);
-// console.log($addBtn);
-// console.log($('form > ul'));
 $addBtn.on('click', () => {
   event.preventDefault();
-  console.log('click!');
   $(this).append(`<li>
   <div class="form-check">
     <input type="checkbox" class="form-check-input" id="exampleCheck1">
