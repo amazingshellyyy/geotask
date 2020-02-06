@@ -23,13 +23,9 @@ const index = (req, res) => {
 // Location Create
 const create = async (req, res) => {
   try {
-    console.log('Finding Todo List');
     const foundToDoList = await db.ToDoList.findById(req.params.id);
-    console.log('Assigning New Location');
     const newLocation = await db.Location.create(req.body);
-    console.log('Updating Todo List with New Location');
     foundToDoList.location = newLocation;
-    console.log('Saving Todo List');
     const savedToDoList = await foundToDoList.save();
     res.status(200).json(savedToDoList);
   } catch (error) {
