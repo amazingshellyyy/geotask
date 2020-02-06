@@ -1,6 +1,7 @@
 console.log('ToDo!');
 const BASE = 'http://localhost:4000';
 const $form = $('form');
+const token = localStorage.getItem('jwt');
 // console.log($form);
 
 
@@ -13,6 +14,7 @@ fetch(`/api/v1/list/detail/${listId}`, {
   method: 'GET',
   headers: {
     'content-Type': 'application/json',
+    'authorization': `bearer ${token}`,
   },
   // body: JSON.stringify(listData),
 })
@@ -45,7 +47,7 @@ const render = (list) => {
         <input type="hidden" id="longitude" name="longitude"/>
       </div>
       <!-- Display latitude and longitude -->
-      <div class="latlong-view" style="display: none">
+      <div class="latlong-view">
         <p><b>Latitude:</b> <span id="latitude_view">${list.location.latitude}</span></p>
         <p><b>Longitude:</b> <span id="longitude_view">${list.location.longitude}</span></p>
       </div>
