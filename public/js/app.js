@@ -34,8 +34,7 @@ const render = (data)=> {
       <div class="form-check">
         <input type="checkbox" class="form-check-input">
         <span id="${item._id}" type="text" value="${item.itemName}" required="true" itemId="${item._id}">${item.itemName}</span>
-        <a href="" class="float-right delItem pl-1">delete</a>
-        <a href="" type="submit" class="float-right">save</a></form>
+        
       </div>
     </li>`)
       } else {
@@ -43,8 +42,7 @@ const render = (data)=> {
         <div class="form-check">
           <input type="checkbox" class="form-check-input" checked="true">
           <span id="${item._id}" type="text" value="${item.itemName}" required="true" itemId="${item._id}">${item.itemName}</span>
-          <a href="" class="float-right delItem pl-1">delete</a>
-          <a href="" type="submit" class="float-right">save</a></form>
+         
         </div>
       </li>`)
       }
