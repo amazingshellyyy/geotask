@@ -36,7 +36,6 @@ if (!!user.token) {
 } else {
   window.location = '/login';
 }
-// var bounds = new google.maps.LatLngBounds();
 
 function initMap() {
   var sf = new google.maps.LatLng(37.773972, -122.431297);
@@ -48,6 +47,7 @@ function initMap() {
 }
 
 const createMarkers = (array) => {
+  // var bounds = new google.maps.LatLngBounds();
   console.log(array);
   // console.log(array.length);
   let zIndexNum = array.length;
@@ -87,12 +87,10 @@ const createMarkers = (array) => {
     });
     // bounds.extend(newMarker.position);
     google.maps.event.addListener(newMarker, 'click', function () {
-      /* TODO show the items in the info pane */
-      /* TODO create divs for a template literal to inject the template into the info pane. */
-      /* TODO Have the list title be a link to the list detail page. */
       infowindow.setContent(template);
       infowindow.open(map, this);
     });
     zIndexNum--
   });
+  // map.fitBounds(bounds);
 }
