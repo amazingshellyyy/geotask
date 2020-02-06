@@ -39,11 +39,7 @@ const create = async (req, res) => {
 
 // Item Update
 const update = (req, res) => {
-  db.Item.findByIdAndUpdate(
-    req.params.id,
-    req.body,
-    { new: true },
-    (error, updatedItem) => {
+  db.Item.findByIdAndUpdate(req.params.id, req.body, { new: true }, (error, updatedItem) => {
       if (error) {
         // return to exit
         return res

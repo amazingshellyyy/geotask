@@ -1,19 +1,25 @@
 const token = localStorage.getItem('jwt');
 // console.log(token);
-fetch(`/api/v1/list/index`, {
-  method: 'GET',
-  headers: {
-    'content-Type': 'application/json',
-    'authorization': `bearer ${token}`,
-  },
-  // body: JSON.stringify(listData),
-})
-  .then(res => res.json())
-  .then((data) => {
-    console.log('data', data);
-    render(data);
+
+
+const getPage = ()=> {
+  fetch(`/api/v1/list/index`, {
+    method: 'GET',
+    headers: {
+      'content-Type': 'application/json',
+      'authorization': `bearer ${token}`,
+    },
+    // body: JSON.stringify(listData),
   })
-  .catch(err => console.log(err))
+    .then(res => res.json())
+    .then((data) => {
+      console.log('data', data);
+      render(data);
+    })
+    .catch(err => console.log(err))
+}
+
+
 
 
 const render = (data)=> {
@@ -23,22 +29,68 @@ const render = (data)=> {
   </ul></li>`)
     for (let j = 0; j < data[i].item.length; j++) {
       const item = data[i].item[j];
-      $(`#list${i+1} > ul`).append(`<li>
+      if (item.status === false) {
+        $(`#list${i+1} > ul`).append(`<li>
       <div class="form-check">
         <input type="checkbox" class="form-check-input">
-        <input id="item${i}" type="text" value="${item.itemName}" required="true">
+        <span id="${item._id}" type="text" value="${item.itemName}" required="true" itemId="${item._id}">${item.itemName}</span>
         <a href="" class="float-right delItem pl-1">delete</a>
         <a href="" type="submit" class="float-right">save</a></form>
       </div>
     </li>`)
+      } else {
+        $(`#list${i+1} > ul`).append(`<li>
+        <div class="form-check">
+          <input type="checkbox" class="form-check-input" checked="true">
+          <span id="${item._id}" type="text" value="${item.itemName}" required="true" itemId="${item._id}">${item.itemName}</span>
+          <a href="" class="float-right delItem pl-1">delete</a>
+          <a href="" type="submit" class="float-right">save</a></form>
+        </div>
+      </li>`)
+      }
     }
   }
 }
 
 
 
+getPage();
+
 $('ul').on('click', 'li', ()=>{
   // console.log($('ul ul'));
   $(event.target).children().toggle();
 
 })
+
+console.log($('ul'));
+$('ul').on('click', '.form-check-input', ()=> {
+  console.log($(event.target));
+  console.log($(event.target).prop('checked'));
+  console.log($(event.target).next());
+  console.log($(event.target).next().prop('id'));
+  console.log($(event.target).next().prop('innerText'));
+let itemId = $(event.target).next().prop('id');
+let status = $(event.target).prop('checked');
+let itemData = {
+  status: status
+}
+fetch(`/api/v1/item/detail/${itemId}`, {
+  method: 'PUT',
+  headers: {
+    'content-Type': 'application/json',
+    'authorization': `bearer ${token}`,
+  },
+  body: JSON.stringify(itemData),
+})
+  .then(res => res.json())
+  .then((data) => {
+    console.log('itemupdatedata', data);
+    // clearPage();
+    // getPage();
+    
+  })
+  .catch(err => console.log(err))
+
+
+})
+
