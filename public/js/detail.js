@@ -58,7 +58,8 @@ const render = (list) => {
     const item = itemList[i];
 
     if (i === itemList.length - 1) {
-      $('.itemList').append(`<li>
+      if (item.status === false) {
+        $('.itemList').append(`<li>
     <div class="form-check">
       <input type="checkbox" class="form-check-input">
       <input id="item${i}" type="text" value="${item.itemName}" required="true">
@@ -66,20 +67,36 @@ const render = (list) => {
     </div>
     <button class="addItem">+</button>
   </li>`)
+      }else {
+        $('.itemList').append(`<li>
+        <div class="form-check">
+          <input type="checkbox" class="form-check-input" checked="true">
+          <input id="item${i}" type="text" value="${item.itemName}" required="true">
+          <a href="" class="float-right delItem">delete</a>
+        </div>
+        <button class="addItem">+</button>
+      </li>`)
+      }
     } else {
-      $('.itemList').append(`<li>
-  <div class="form-check">
-    <input type="checkbox" class="form-check-input">
-    <input id="item${i}" type="text" value="${item.itemName}" required="true">
-    <a href="" class="float-right delItem">delete</a>
-  </div>
-</li>`)
-    }
-    const id = `item${i}`;
-    if (item.status === "false") {
-      $('id').prev().removeProp('checked');
-    } else {
-      $('id').prev().prop('checked');
+      if (item.status === false) {
+        $('.itemList').append(`<li>
+    <div class="form-check">
+      <input type="checkbox" class="form-check-input">
+      <input id="item${i}" type="text" value="${item.itemName}" required="true">
+      <a href="" class="float-right delItem">delete</a>
+    </div>
+    
+  </li>`)
+      }else {
+        $('.itemList').append(`<li>
+        <div class="form-check">
+          <input type="checkbox" class="form-check-input" checked="true">
+          <input id="item${i}" type="text" value="${item.itemName}" required="true">
+          <a href="" class="float-right delItem">delete</a>
+        </div>
+        
+      </li>`)
+      }
     }
   }
 
@@ -139,6 +156,7 @@ $form.on('click', '.delete', () => {
       method: 'DELETE',
       headers: {
         'content-Type': 'application/json',
+        'authorization': `bearer ${token}`,
       },
       // body: JSON.stringify(listData),
     })
@@ -192,6 +210,12 @@ const $save = $('.save');
 let lat = 0;
 let long = 0;
 //submiting update form
+let listData = {};
+// $('.save').on('click', ()=>{
+//   const $formEle = $form.prop('elements');
+//   console.log($formEle);
+// } )
+
 $form.on('submit', () => {
   clearAlertMessage();
   event.preventDefault();
@@ -263,6 +287,7 @@ $form.on('submit', () => {
       method: 'PUT',
       headers: {
         'content-Type': 'application/json',
+        'authorization': `bearer ${token}`,
       },
       body: JSON.stringify(listData),
     })
@@ -275,7 +300,7 @@ $form.on('submit', () => {
   }
 
   $('.blank').removeClass('blank')
-  $('.save').css('display', 'none');
+  // $('.save').css('display', 'none');
 
 })
 

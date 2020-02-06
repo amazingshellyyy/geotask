@@ -19,15 +19,16 @@ fetch(`/api/v1/list/index`, {
 const render = (data)=> {
   for (let i = 0; i < data.length; i++) {
     const list = data[i];
-    $('#list-group').append(`<form><li id="list${i+1}">${list.listTitle}<ul class="items list-unstyled" style="display: none;">
-  </ul></li><button class="btn-primary">save</button></form>`)
+    $('#list-group').append(`<form><li class="list-group-item" id="list${i+1}" listId="${list._id}">${list.listTitle}<ul class="items list-unstyled" style="display: none;">
+  </ul></li>`)
     for (let j = 0; j < data[i].item.length; j++) {
       const item = data[i].item[j];
       $(`#list${i+1} > ul`).append(`<li>
       <div class="form-check">
         <input type="checkbox" class="form-check-input">
         <input id="item${i}" type="text" value="${item.itemName}" required="true">
-        <a href="" class="float-right delItem">delete</a>
+        <a href="" class="float-right delItem pl-1">delete</a>
+        <a href="" type="submit" class="float-right">save</a></form>
       </div>
     </li>`)
     }
