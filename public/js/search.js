@@ -1,19 +1,18 @@
-console.log('map view active');
+/* Google Maps Variables */
 var map;
 var service;
 var infowindow;
+
+/* User Data */
 let user = {
   token: "",
   id: "",
-  data: {},
+  data: {}
 };
 
+/* Validating Signin Token Stored Locally */
 user.token = localStorage.getItem('jwt');
 const BASE = 'http://localhost:4000';
-
-console.log('token', user.token);
-
-// console.log($here);
 
 if (!!user.token) {
   //send data to server
@@ -25,12 +24,10 @@ if (!!user.token) {
   })
     .then(res => res.json())
     .then((data) => {
+      // storing the data in the user object
       user.id = data._id;
-      console.log(user.id);
       user.data = data;
-      console.log('data', data);
       initMap();
-      // render(data);
     })
     .catch(err => console.log(err))
 } else {
@@ -38,44 +35,40 @@ if (!!user.token) {
 }
 
 function initMap() {
-  var sf = new google.maps.LatLng(37.773972, -122.431297);
-
   infowindow = new google.maps.InfoWindow();
   map = new google.maps.Map(
-    document.getElementById('map'), { center: sf, zoom: 15 });
+    document.getElementById('map')
+  );
   createMarkers(user.data.toDoList);
 }
 
 const createMarkers = (array) => {
-  // var bounds = new google.maps.LatLngBounds();
-  console.log(array);
-  // console.log(array.length);
+  var bounds = new google.maps.LatLngBounds();
   let zIndexNum = array.length;
+
   array.forEach(list => {
-    let locationName = list.location.locationName;
-    // console.log(name);
-    console.log(list._id);
-    let listId = list._id;
+    // Getting position for Marker
     let lat = list.location.latitude;
     let lng = list.location.longitude;
     const latLng = new google.maps.LatLng(lat, lng);
-
+    // Creating content for Marker Info Window
+    let listId = list._id;
+    let locationName = list.location.locationName;
     let listName = list.listTitle;
-    console.log(listName);
-    let itemLength = list.item.length;
     let template = `
       <h1>${locationName}</h1>
       <h2><a href="${BASE}/detail/?id=${listId}">${listName}</a></h2>
       `;
+    // Filtering out List Items that have been Completed
     let itemCount = 0
     for (i = 0; i < list.item.length; i++) {
-      console.log(list.item[i].status);
       if (list.item[i].status === false) {
+        // Appending List Item to Template
         template += `<p>${list.item[i].itemName}</p>`;
         itemCount++
       }
     }
-    // Placing markers on the map
+    // Placing markers on the Map
     let newMarker = new google.maps.Marker({
       title: name,
       position: latLng,
@@ -84,12 +77,16 @@ const createMarkers = (array) => {
       animation: google.maps.Animation.DROP,
       zIndex: zIndexNum
     });
-    // bounds.extend(newMarker.position);
+    // Extending the bounds of the Map
+    bounds.extend(latLng);
+    // Creating the Info Window over the Marker
     google.maps.event.addListener(newMarker, 'click', function () {
+      // Placing Template on Info Window
       infowindow.setContent(template);
       infowindow.open(map, this);
     });
     zIndexNum--
   });
-  // map.fitBounds(bounds);
+  // Bounding the Map to the existing Markers
+  map.fitBounds(bounds);
 }
