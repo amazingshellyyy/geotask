@@ -77,7 +77,7 @@ app.post('/api/v1/list/create', mw.auth.verify, ctrl.toDoList.create);
 // List Show
 app.get('/api/v1/list/detail/:id', mw.auth.verify, ctrl.toDoList.show);
 // List Update Title
-app.put('/api/v1/list/detail/:id', ctrl.toDoList.update);
+app.put('/api/v1/list/detail/:id', mw.auth.verify, ctrl.toDoList.update);
 // List Delete
 app.delete('/api/v1/list/detail/:id', ctrl.toDoList.destroy);
 
@@ -87,7 +87,7 @@ app.get('/api/v1/item/index', ctrl.item.index);
 // Item Create
 app.post('/api/v1/list/:id/item', ctrl.item.create);
 // Item Update
-app.put('/api/v1/item/detail/:id', ctrl.item.update);
+app.put('/api/v1/item/detail/:id', mw.auth.verify, ctrl.item.update);
 // Item Delete
 app.delete('/api/v1/item/detail/:id', ctrl.item.destroy);
 
