@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="30px" height="37px" viewBox="0 0 30 37" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 59.1 (86144) - https://sketch.com -->
+    <title>Logo - GeoTask</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <linearGradient x1="32.5500266%" y1="6.83997351%" x2="50%" y2="99.7782939%" id="linearGradient-1">
+            <stop stop-color="#7CC9EE" offset="0%"></stop>
+            <stop stop-color="#492EF4" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="Logo---GeoTask" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="GeoTask-logo">
+            <path d="M15,37 C25,27.3045324 30,19.7556819 30,14.3534483 C30,6.2500979 23.2842712,0 15,0 C6.71572875,0 0,6.2500979 0,14.3534483 C0,19.7556819 5,27.3045324 15,37 Z" id="pointer---red" fill="url(#linearGradient-1)"></path>
+            <polyline id="Line" stroke="#FFFFFF" stroke-width="4" stroke-linecap="round" points="8.5 16.4857143 14.2435897 23 22.5 11"></polyline>
+        </g>
+    </g>
+</svg>

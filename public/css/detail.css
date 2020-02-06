@@ -1,0 +1,16 @@
+
+.form-group > label {
+  border-left: 5px solid gray;
+  padding-left: 10px;
+  background-color: whitesmoke;
+  width: 100%;
+}
+.form-group > input, input{
+  /* background-color: tomato; */
+  border-color: transparent;
+}
+
+.blank {
+  border-bottom: 1px solid grey;
+}
+
