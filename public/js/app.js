@@ -25,7 +25,7 @@ const getPage = ()=> {
 const render = (data)=> {
   for (let i = 0; i < data.length; i++) {
     const list = data[i];
-    $('#list-group').append(`<form><li class="list-group-item" id="list${i+1}" listId="${list._id}">${list.listTitle}<ul class="items list-unstyled" style="display: none;">
+    $('#list-group').append(`<form><li class="list-group-item" id="list${i+1}" listId="${list._id}">${list.listTitle}<a id="listlink" href="/detail?id=${list._id}" class="float-right btn btn-link">></a><ul class="items list-unstyled" style="display: none;">
   </ul></li>`)
     for (let j = 0; j < data[i].item.length; j++) {
       const item = data[i].item[j];
@@ -60,6 +60,9 @@ $('ul').on('click', 'li', ()=>{
 
 })
 
+// $('form').on('click', '.list-group-item', ()=>{
+  
+// })
 console.log($('ul'));
 $('ul').on('click', '.form-check-input', ()=> {
   console.log($(event.target));

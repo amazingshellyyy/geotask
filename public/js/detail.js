@@ -163,7 +163,7 @@ $form.on('click', '.delete', () => {
       .then(res => res.json())
       .then((data) => {
         console.log('data', data);
-        window.location = '/';
+        window.location = '/create';
 
       })
       .catch(err => console.log(err))
