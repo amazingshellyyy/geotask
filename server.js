@@ -77,7 +77,7 @@ app.post('/api/v1/list/create', mw.auth.verify, ctrl.toDoList.create);
 // List Show
 app.get('/api/v1/list/detail/:id', mw.auth.verify, ctrl.toDoList.show);
 // List Update Title
-app.put('/api/v1/list/detail/:id', ctrl.toDoList.update);
+app.put('/api/v1/list/detail/:id', mw.auth.verify, ctrl.toDoList.update);
 // List Delete
 app.delete('/api/v1/list/detail/:id', ctrl.toDoList.destroy);
 
