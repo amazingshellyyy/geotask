@@ -2,7 +2,6 @@ const db = require('../models');
 
 // List Index
 const index = (req, res) => {
-  // console.log(req.curUserId);
   db.ToDoList.find({ user: req.curUserId })
     .populate('item')
     .populate('location')
@@ -46,7 +45,7 @@ const create = (req, res) => {
           createdToDoList.user = req.curUserId;
         })
         const Items = req.body.items;
-        console.log('if', req.body.items);
+
         for (let i = 0; i < Items.length; i++) {
           const item = Items[i];
           const itemObj = {
@@ -60,11 +59,10 @@ const create = (req, res) => {
                 .status(500)
                 .json({ message: 'Something went wrong.', err: err });
             }
-            console.log('createdItem', createdItem);
+
             createdToDoList.item.push(createdItem._id);
             if (i === Items.length - 1) {
               createdToDoList.save();
-              console.log(createdToDoList);
               return res.json({ createdToDoList });
             }
           })
@@ -82,6 +80,7 @@ const create = (req, res) => {
         createdToDoList.location = foundLocation._id;
         createdToDoList.user = req.curUserId;
         const Items = req.body.items;
+
         for (let i = 0; i < Items.length; i++) {
           const item = Items[i];
           const itemObj = {
@@ -99,7 +98,6 @@ const create = (req, res) => {
             createdToDoList.item.push(createdItem._id);
             if (i === Items.length - 1) {
               createdToDoList.save();
-
               return res.json({ createdToDoList });
             }
           })
@@ -116,7 +114,6 @@ const create = (req, res) => {
 
 // List Show
 const show = (req, res) => {
-  console.log(req.params);
   db.ToDoList.findById(req.params.id)
     .populate('item')
     .populate('location')
@@ -143,87 +140,49 @@ const update = (req, res) => {
     .populate('item')
     .populate('location')
     .exec((err, foundToDoList) => {
-      if (err) return res.status(500).json({ message: 'Something went wrong at finding to do list.', err: err });
+      if (err) return res.status(500).json({ message: 'Something went wrong.', err: err });
+      foundToDoList.listTitle = req.body.list.listTitle;
+      foundToDoList.dateDue = req.body.list.dateDue;
+
       db.Location.findOne({ locationName: req.body.location.locationName }, (err, foundLocation) => {
-        if (err) return res.status(500).json({ message: 'Something went wrong at finding location name.', err: err });
+        if (err) return res.status(500).json({ message: 'Something went wrong.', err: err });
         if (!foundLocation) {
           db.Location.create(req.body.location, (err, createdLocation) => {
             if (err) return res.status(500).json({ message: 'Something went wrong.', err: err });
-            let itemlist = [];
-            const Items = req.body.items;
-            for (let i = 0; i < Items.length; i++) {
-              const item = Items[i];
-              const itemObj = {
-                itemName: item.itemName,
-                status: item.status
-              }
-              itemlist.push(itemObj);
+            foundToDoList.location = createdLocation._id;
+          })
+
+        } else if (foundLocation._id !== foundToDoList.location) {
+          foundToDoList.location = foundLocation._id;
+        }
+
+        foundToDoList.item = [];
+        const Items = req.body.items;
+        for (let i = 0; i < Items.length; i++) {
+          const item = Items[i];
+          const itemObj = {
+            itemName: item.itemName,
+            status: item.status
+          }
+
+          db.Item.create(itemObj, (err, createdItem) => {
+            if (err) {
+              // return to exit
+              return res
+                .status(500)
+                .json({ message: 'Something went wrong.', err: err });
             }
-            db.Item.create(itemlist, (err, createdItems) => {
-              if (err) return res.status(500).json({ message: 'Something went wrong at finding location name.', err: err });
-              console.log(createdItems);
-              let itemlist = createdItems.map((item) => {
-                return item._id;
-              })
-              console.log(itemlist);
-
-
-              let ToDolistObj = {
-                listTitle: req.body.list.listTitle,
-                dateDue: req.body.list.dateDue,
-                location: createdLocation._id,
-                item: itemlist,
-                user: req.curUserId
-              }
-              console.log('itemlist', itemlist)
-              console.log('ToDolistObj', ToDolistObj);
-              db.ToDoList.findByIdAndUpdate(foundToDoList._id, ToDolistObj, { new: true }, (err, updatedToDoList) => {
-                if (err) return res.status(500).json({ message: 'Something went wrong at finding location name.', err: err });
-                res.json({ updatedToDoList });
-              })
-            })
-
-
-          });
-
-
-        } else {
-          let itemlist = [];
-            const Items = req.body.items;
-            for (let i = 0; i < Items.length; i++) {
-              const item = Items[i];
-              const itemObj = {
-                itemName: item.itemName,
-                status: item.status
-              }
-              itemlist.push(itemObj);
+            foundToDoList.item.push(createdItem._id);
+            if (i === Items.length - 1) {
+              foundToDoList.save();
+              return res.json({ foundToDoList });
             }
-            db.Item.create(itemlist, (err, createdItems) => {
-              if (err) return res.status(500).json({ message: 'Something went wrong at finding location name.', err: err });
-              console.log(createdItems);
-              let itemlist = createdItems.map((item) => {
-                return item._id;
-              })
-              console.log(itemlist);
-
-
-              let ToDolistObj = {
-                listTitle: req.body.list.listTitle,
-                dateDue: req.body.list.dateDue,
-                location: foundLocation._id,
-                item: itemlist,
-                user: req.curUserId
-              }
-              console.log('itemlist', itemlist)
-              console.log('ToDolistObj', ToDolistObj);
-              db.ToDoList.findByIdAndUpdate(foundToDoList._id, ToDolistObj, { new: true }, (err, updatedToDoList) => {
-                if (err) return res.status(500).json({ message: 'Something went wrong at finding location name.', err: err });
-                res.json({ updatedToDoList });
-              })
-            })
+          })
 
         }
       })
+
+
     });
 
   //update ToDoList title, dateDue
