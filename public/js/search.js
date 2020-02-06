@@ -90,3 +90,4 @@ const createMarkers = (array) => {
   // Bounding the Map to the existing Markers
   map.fitBounds(bounds);
 }
+
