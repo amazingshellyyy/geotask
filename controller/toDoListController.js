@@ -2,7 +2,6 @@ const db = require('../models');
 
 // List Index
 const index = (req, res) => {
-  // console.log(req.curUserId);
   db.ToDoList.find({ user: req.curUserId })
     .populate('item')
     .populate('location')
@@ -46,7 +45,7 @@ const create = (req, res) => {
           createdToDoList.user = req.curUserId;
         })
         const Items = req.body.items;
-        console.log('if', req.body.items);
+
         for (let i = 0; i < Items.length; i++) {
           const item = Items[i];
           const itemObj = {
@@ -60,11 +59,10 @@ const create = (req, res) => {
                 .status(500)
                 .json({ message: 'Something went wrong.', err: err });
             }
-            console.log('createdItem', createdItem);
+
             createdToDoList.item.push(createdItem._id);
             if (i === Items.length - 1) {
               createdToDoList.save();
-              console.log(createdToDoList);
               return res.json({ createdToDoList });
             }
           })
@@ -82,8 +80,7 @@ const create = (req, res) => {
         createdToDoList.location = foundLocation._id;
         createdToDoList.user = req.curUserId;
         const Items = req.body.items;
-        console.log('else', req.body.items);
-        console.log('else', Items);
+
         for (let i = 0; i < Items.length; i++) {
           const item = Items[i];
           const itemObj = {

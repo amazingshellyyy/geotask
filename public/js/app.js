@@ -1,5 +1,5 @@
 const token = localStorage.getItem('jwt');
-// console.log(token);
+
 fetch(`/api/v1/list/index`, {
   method: 'GET',
   headers: {
@@ -16,16 +16,15 @@ fetch(`/api/v1/list/index`, {
   .catch(err => console.log(err))
 
 
-const render = (data)=> {
+const render = (data) => {
   for (let i = 0; i < data.length; i++) {
     const list = data[i];
-    $('#list-group').append(`<li id="list${i+1}">${list.listTitle}<ul id="items" style="display: none;">items is here
+    $('#list-group').append(`<li id="list${i + 1}">${list.listTitle}<ul id="items" style="display: none;">items is here
   </ul></li>`)
   }
 }
 
-$('ul').on('click', 'li', ()=>{
-  console.log($('ul ul'));
+$('ul').on('click', 'li', () => {
   $(event.target).children().toggle();
 
 })

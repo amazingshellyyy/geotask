@@ -22,13 +22,9 @@ const index = (req, res) => {
 // Item Create
 const create = async (req, res) => {
   try {
-    console.log('Finding Todo List');
     const foundToDoList = await db.ToDoList.findById(req.params.id);
-    console.log('Creating new item');
     const newItem = await db.Item.create(req.body);
-    console.log('Updating Todo List');
     foundToDoList.item.push(newItem);
-    console.log('Saving Todo List');
     const savedTodoList = await foundToDoList.save(); // commits changes to db
     res.status(200).json(savedTodoList);
   } catch (error) {

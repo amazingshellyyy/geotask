@@ -1,9 +1,6 @@
-console.log('ToDo!');
 const BASE = 'http://localhost:4000';
 const $form = $('form');
 const token = localStorage.getItem('jwt');
-// console.log($form);
-
 
 let url = new URL(window.location.href.toString());
 let query_string = url.search;
@@ -16,13 +13,10 @@ fetch(`/api/v1/list/detail/${listId}`, {
     'content-Type': 'application/json',
     'authorization': `bearer ${token}`,
   },
-  // body: JSON.stringify(listData),
 })
   .then(res => res.json())
   .then((data) => {
-    console.log('data', data);
     const list = data.data;
-    console.log('list', list);
     render(list);
   })
   .catch(err => console.log(err))
@@ -90,10 +84,7 @@ const render = (list) => {
     }
   }
 
-  console.log($('.itemList'));
-  console.log($('.delItem'))
   $('.itemList').on('click', '.delItem', () => {
-    console.log(event.target);
     event.preventDefault();
     $(event.target).parent().remove();
     $('button').css('display', '');
@@ -103,8 +94,6 @@ const render = (list) => {
   const $addBtn = $('.addItem');
   const $addItemlist = $('.itemList');
 
-  // console.log('btn',$addBtn);
-  // console.log($addItemlist);
   $addItemlist.on('click', '.addItem', () => {
     event.preventDefault();
     $addItemlist.append(`<li>
@@ -115,7 +104,6 @@ const render = (list) => {
   </div> 
   <button class="addItem">+</button>
 </li>`)
-    // $(event.target).css("display", 'none');
     $(event.target).remove();
   })
 }
@@ -128,7 +116,6 @@ const render = (list) => {
 
 /* Delete list */
 $form.on('click', '.delete', () => {
-  console.log('delete button');
   if (confirm('Are you sure you want to delete the list?')) {
     fetch(`/api/v1/list/detail/${listId}`, {
       method: 'DELETE',
@@ -139,7 +126,6 @@ $form.on('click', '.delete', () => {
     })
       .then(res => res.json())
       .then((data) => {
-        console.log('data', data);
         window.location = '/';
 
       })
@@ -166,12 +152,6 @@ $form.on('click', 'input', () => {
     document.getElementById('longitude_view').innerHTML = near_place.geometry.location.lng();
 
   });
-  // $(document).on('change', '#' + searchInput, function () {
-  //   document.getElementById('latitude_input').value = '';
-  //   document.getElementById('longitude_input').value = '';
-  //   document.getElementById('latitude_view').innerHTML = '';
-  //   document.getElementById('longitude_view').innerHTML = '';
-  // });
 
   $('#searchInput').on('keyup', () => {
     document.getElementById('latitude_input').value = '';
@@ -205,33 +185,26 @@ $form.on('submit', () => {
   const items = [];
   const $formEle = $form.prop('elements');
   const formInput = [...$formEle];
-  console.log('hiiiii');
-  console.log(formInput);
 
   let formIsValid = true;
   //check valid and filter out button
   for (let i = 0; i < formInput.length; i++) {
     if (formInput[i].tagName === 'BUTTON') {
-      console.log(formInput[i]);
       formInput.splice(i, 1);
     } else if (formInput[i].className === 'form-check-input') {
-      console.log(formInput[i]);
       // formInput[i].prop('value',formInput[i].checked);
     } else if (formInput[i].value === '') {
-      console.log(formInput[i]);
       formIsValid = false;
       formInput[i].classList.add('input-error');
       formInput[i].insertAdjacentHTML('afterend', `<div class="alert">Please enter valid information</div>`)
     }
 
   }
-  console.log(formInput);
+
   const toDo = formInput.slice(0, 2);
   const loca = formInput.slice(2, 5);
   const it = formInput.slice(5, formInput.length - 1);
-  console.log(toDo);
-  console.log(loca);
-  console.log(it);
+
   toDo.forEach(input => {
     list[`${input.id}`] = input.value;
   })
@@ -249,16 +222,13 @@ $form.on('submit', () => {
 
   }
 
-  console.log(list);
-  console.log(location);
-  console.log(items);
   // listData.id = listId;
   listData.list = list;
   listData.location = location;
   listData.items = items;
-  console.log("update list to be send",listData);
+
   //fetch list
- if (formIsValid) {
+  if (formIsValid) {
     //send data to server
     fetch(`${BASE}/api/v1/list/detail/${listId}`, {
       method: 'PUT',
@@ -270,11 +240,10 @@ $form.on('submit', () => {
       .then(res => res.json())
       .then((data) => {
         console.log('data', data);
-        // location.reload();
       })
       .catch(err => console.log(err))
   }
- 
+
   $('.blank').removeClass('blank')
   $('.save').css('display', 'none');
 

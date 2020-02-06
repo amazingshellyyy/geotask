@@ -5,7 +5,6 @@ const jwt = require('jsonwebtoken');
 
 const signup = (req, res) => {
   const userData = req.body;
-  console.log(userData);
 
   /* Validating Sign up Form */
   if (!userData.email && !userData.password) {
@@ -18,8 +17,7 @@ const signup = (req, res) => {
 
     //return error if account alraedy exist
     if (foundUser) return res.status(400).json({ message: 'Email is already been registered, please try again' });
-    // res.json({ message: 'hi' });
-    console.log('bf hash', userData.password);
+
     //if doesn't exist, we generate hash Salt ( make the password hard to crack)
     bcrypt.genSalt(10, (err, salt) => {
       if (err) return res.status(400).json({ message: 'Something went wrong, try again' });
@@ -30,7 +28,6 @@ const signup = (req, res) => {
           email,
           password: hash
         }
-        console.log('afterhash', hash);
         db.User.create(newUser, (err, createdUser) => {
           if (err) return res.status(400).json({ message: "Bad Request, Please try again", err: err.errmsg });
           jwt.sign({ foo: createdUser._id }, 'shhhhh', { expiresIn: '10h' }, (err, jwt) => {
@@ -99,7 +96,7 @@ const login = (req, res) => {
 
 const socialSignup = (req, res) => {
   const userData = req.body;
-  console.log('userGoogle', userData);
+
   //check for existing user account
   db.User.findOne({ email: userData.email }, (err, foundUser) => {
     if (err) return res.status(400).json({ message: 'Bad request, try again' });
@@ -108,22 +105,22 @@ const socialSignup = (req, res) => {
   });
   db.User.create(userData, (err, createdUser) => {
     if (err) return res.status(400).json({ message: "Bad Request, Please try again", err: err.errmsg });
-    console.log('createdUser',createdUser);
+
     jwt.sign({ foo: createdUser._id }, 'shhhhh', { expiresIn: '10h' }, (err, jwt) => {
       if (err) return res.status(500).json({
         status: 503,
         errors: [{ message: 'access forbidden' }],
       });
-      console.log(jwt);
+
       res.status(200).json({ jwt });
-   });  
+    });
   });
 }
 
 
 const socialLogin = (req, res) => {
   const userData = req.body;
-  console.log('userGoogle', userData);
+
   //check for existing user account
   db.User.findOne({ email: userData.email }, (err, foundUser) => {
     if (err) return res.status(400).json({ message: 'Bad request, tyr again' });
