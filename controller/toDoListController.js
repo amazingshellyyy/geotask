@@ -98,7 +98,6 @@ const create = (req, res) => {
             createdToDoList.item.push(createdItem._id);
             if (i === Items.length - 1) {
               createdToDoList.save();
-              console.log(createdToDoList);
               return res.json({ createdToDoList });
             }
           })
@@ -115,7 +114,6 @@ const create = (req, res) => {
 
 // List Show
 const show = (req, res) => {
-  console.log(req.params);
   db.ToDoList.findById(req.params.id)
     .populate('item')
     .populate('location')
@@ -151,8 +149,6 @@ const update = (req, res) => {
         if (!foundLocation) {
           db.Location.create(req.body.location, (err, createdLocation) => {
             if (err) return res.status(500).json({ message: 'Something went wrong.', err: err });
-            console.log('createdLocation', createdLocation);
-            console.log('in new location');
             foundToDoList.location = createdLocation._id;
           })
 
@@ -178,10 +174,7 @@ const update = (req, res) => {
             }
             foundToDoList.item.push(createdItem._id);
             if (i === Items.length - 1) {
-              // console.log('foundToDOList bf save',foundToDoList);
               foundToDoList.save();
-
-              // console.log('foundToDOList at save',foundToDoList);
               return res.json({ foundToDoList });
             }
           })

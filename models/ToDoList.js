@@ -23,12 +23,14 @@ const toDoListSchema = new Schema({
   location: {
     type: Schema.Types.ObjectId,
     ref: 'Location',
+    populate: true
     /* TODO uncomment the line below before pushing to submaster  */
     // required: true
   },
   item: [{
     type: Schema.Types.ObjectId,
-    ref: 'Item'
+    ref: 'Item',
+    populate: true
   }],
   user: {
     type: Schema.Types.ObjectId,
