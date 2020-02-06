@@ -3,7 +3,7 @@ const BASE = 'http://localhost:4000';
 const $form = $('form');
 const token = localStorage.getItem('jwt');
 // console.log($form);
-
+let autocomplete;
 
 let url = new URL(window.location.href.toString());
 let query_string = url.search;
@@ -43,13 +43,6 @@ const render = (list) => {
       <div class="form-group">
         <label>Location:</label>
         <input type="text" class="form-control" id="locationName" placeholder="Type address..." name="locationName" value="${list.location.locationName}"/>
-        <input type="hidden" id="latitude" name="latitude"/>
-        <input type="hidden" id="longitude" name="longitude"/>
-      </div>
-      <!-- Display latitude and longitude -->
-      <div class="latlong-view">
-        <p><b>Latitude:</b> <span id="latitude_view">${list.location.latitude}</span></p>
-        <p><b>Longitude:</b> <span id="longitude_view">${list.location.longitude}</span></p>
       </div>
   <ul class="list-unstyled itemList">
     <div>Item</div>
@@ -118,6 +111,17 @@ const render = (list) => {
     // $(event.target).css("display", 'none');
     $(event.target).remove();
   })
+
+
+  let searchInput = 'locationName';
+
+autocomplete = new google.maps.places.Autocomplete((document.getElementById(searchInput)), {
+  types: ['geocode'],
+  componentRestrictions: {
+    country: "USA",
+  },
+  radius: '500'
+});
 }
 
 
@@ -146,39 +150,28 @@ $form.on('click', '.delete', () => {
       .catch(err => console.log(err))
   }
 })
+
+
+
 $form.on('click', 'input', () => {
   $('button').css('display', '');
+  
+  // google.maps.event.addListener(autocomplete, 'place_changed', function () {
+  //   var near_place = autocomplete.getPlace();
+  //   document.getElementById('latitude').value = near_place.geometry.location.lat();
+  //   document.getElementById('longitude').value = near_place.geometry.location.lng();
+  //   document.getElementById('latitude_view').innerHTML = near_place.geometry.location.lat();
+  //   document.getElementById('longitude_view').innerHTML = near_place.geometry.location.lng();
 
-  let searchInput = 'locationName';
-  var autocomplete;
-  autocomplete = new google.maps.places.Autocomplete((document.getElementById(searchInput)), {
-    types: ['geocode'],
-    componentRestrictions: {
-      country: "USA",
-    },
-    radius: '500'
-  });
-  google.maps.event.addListener(autocomplete, 'place_changed', function () {
-    var near_place = autocomplete.getPlace();
-    document.getElementById('latitude').value = near_place.geometry.location.lat();
-    document.getElementById('longitude').value = near_place.geometry.location.lng();
-    document.getElementById('latitude_view').innerHTML = near_place.geometry.location.lat();
-    document.getElementById('longitude_view').innerHTML = near_place.geometry.location.lng();
+  // });
+ 
 
-  });
-  // $(document).on('change', '#' + searchInput, function () {
+  // $('#searchInput').on('keyup', () => {
   //   document.getElementById('latitude_input').value = '';
   //   document.getElementById('longitude_input').value = '';
   //   document.getElementById('latitude_view').innerHTML = '';
   //   document.getElementById('longitude_view').innerHTML = '';
-  // });
-
-  $('#searchInput').on('keyup', () => {
-    document.getElementById('latitude_input').value = '';
-    document.getElementById('longitude_input').value = '';
-    document.getElementById('latitude_view').innerHTML = '';
-    document.getElementById('longitude_view').innerHTML = '';
-  })
+  // })
   /* ------ */
 })
 
@@ -195,8 +188,21 @@ const clearAlertMessage = () => {
 }
 
 const $save = $('.save');
+let lat = 0;
+let long = 0;
 //submiting update form
 $form.on('submit', () => {
+  
+  // google.maps.event.addListener(autocomplete, 'place_changed', function () {
+    var near_place = autocomplete.getPlace();
+    lat = near_place.geometry.location.lat();
+    long = near_place.geometry.location.lng();
+  // });
+
+console.log(lat);
+console.log(long);
+
+
   clearAlertMessage();
   event.preventDefault();
   const listData = {};
@@ -222,13 +228,13 @@ $form.on('submit', () => {
       formIsValid = false;
       formInput[i].classList.add('input-error');
       formInput[i].insertAdjacentHTML('afterend', `<div class="alert">Please enter valid information</div>`)
-    }
+    } 
 
   }
   console.log(formInput);
-  const toDo = formInput.slice(0, 2);
-  const loca = formInput.slice(2, 5);
-  const it = formInput.slice(5, formInput.length - 1);
+  let toDo = formInput.slice(0, 2);
+  let loca = formInput.slice(2, 3);
+  let it = formInput.slice(3, formInput.length - 1);
   console.log(toDo);
   console.log(loca);
   console.log(it);
@@ -255,6 +261,8 @@ $form.on('submit', () => {
   // listData.id = listId;
   listData.list = list;
   listData.location = location;
+  listData.location.latitude = lat;
+  listData.location.longitude = long;
   listData.items = items;
   console.log("update list to be send",listData);
   //fetch list
