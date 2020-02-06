@@ -5,10 +5,9 @@ const app = express();
 const PORT = process.env.PORT || 4000;
 const ctrl = require('./controller');
 const mw = require('./middleware');
-
 const db = require('./models');
 
-/* middleware */
+/* Middleware */
 app.use(express.static(`${__dirname}/public`));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -18,13 +17,13 @@ app.get('/', (req, res) => {
   res.sendFile('/views/index.html', {
     root: __dirname
   });
-} );
-app.get('/profile', (req, res)=>{
+});
+app.get('/profile', (req, res) => {
   res.sendFile('/views/profile.html', {
-      root: __dirname
+    root: __dirname
   });
-} );
-app.get('/create',(req, res)=>{
+});
+app.get('/create', (req, res) => {
   res.sendFile('/views/create.html', {
     root: __dirname
   });
@@ -43,8 +42,8 @@ app.get('/mapview', (req, res) => {
   res.sendFile('/views/mapview.html', {
     root: __dirname
   });
-} );
-app.get('/detail', (req, res)=>{
+});
+app.get('/detail', (req, res) => {
   res.sendFile('/views/detail.html', {
     root: __dirname
   });
@@ -68,10 +67,7 @@ app.post('/api/v1/socialSignup', ctrl.auth.socialSignup);
 app.post('/api/v1/socialLogin', ctrl.auth.socialLogin);
 app.post('/api/v1/verify', mw.auth.verify);
 app.post('/api/v1/profile', mw.auth.verify,
-ctrl.user.showProfile);
-
-
-
+  ctrl.user.showProfile);
 
 /* ----------- ToDo List Routes */
 // List index
@@ -87,7 +83,7 @@ app.delete('/api/v1/list/detail/:id', ctrl.toDoList.destroy);
 
 /* -----------  Item Routes */
 // Item index
-app.get('/api/v1/items', ctrl.item.index);
+app.get('/api/v1/item/index', ctrl.item.index);
 // Item Create
 app.post('/api/v1/list/:id/item', ctrl.item.create);
 // Item Update

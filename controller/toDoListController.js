@@ -136,11 +136,6 @@ const show = (req, res) => {
       };
       res.status(200).json(responseObj);
     });
-  // db.ToDoList.findById(req.params.id, (err, foundList) => {
-  //   if (err) res.status(400).json(err);
-
-  //   res.json(foundList);
-  // })
 };
 
 // List Update
@@ -209,8 +204,6 @@ const update = (req, res) => {
 
 
 };
-
-
 
 // List Delete
 const destroy = (req, res) => {

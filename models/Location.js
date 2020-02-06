@@ -1,7 +1,7 @@
 /* -------- Location Schema Outline -------- */
 // LocationID
 // locationName - string
-// lattitude - number (float)
+// latitude - number (float)
 // longitude - number (float)
 // ToDoListId - ref
 
