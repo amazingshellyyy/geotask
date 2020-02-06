@@ -63,7 +63,6 @@ const createMarkers = (array) => {
     let listName = list.listTitle;
     console.log(listName);
     let itemLength = list.item.length;
-    // console.log(list.item);
     let template = `
       <h1>${locationName}</h1>
       <h2><a href="${BASE}/detail/?id=${listId}">${listName}</a></h2>
