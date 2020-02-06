@@ -2,21 +2,18 @@ const db = require('../models');
 
 // List Index
 const index = (req, res) => {
-  db.ToDoList.find({})
+  // console.log(req.curUserId);
+  db.ToDoList.find({ user: req.curUserId })
     .populate('item')
-    .exec((error, indexToDoList) => {
+    .populate('location')
+    .exec((error, indexToDoLists) => {
       if (error) {
         // return to exit
         return res
           .status(500)
           .json({ message: 'Something went wrong.', error: error });
       }
-      const responseObj = {
-        status: 200,
-        data: indexToDoList,
-        requestedAt: new Date().toLocaleString()
-      };
-      res.status(200).json(responseObj);
+      res.status(200).json(indexToDoLists);
     });
 };
 
@@ -149,51 +146,59 @@ const show = (req, res) => {
 // List Update
 // TODO Update this for async await to populate list items.
 const update = (req, res) => {
-  db.ToDoList.findById(req.params.id, (err, foundToDoList) => {
-    if (err) return res.status(500).json({ message: 'Something went wrong.', err: err });
-    foundToDoList.listTitle = req.body.list.listTitle;
-    foundToDoList.dateDue = req.body.list.dateDue;
-
-    db.Location.findOne({ locationName: req.body.location.locationName }, (err, foundLocation) => {
+  db.ToDoList.findById(req.params.id)
+    .populate('item')
+    .populate('location')
+    .exec((err, foundToDoList) => {
       if (err) return res.status(500).json({ message: 'Something went wrong.', err: err });
-      if (!foundLocation) {
-        db.Location.create(req.body.location, (err, createdLocation) => {
-          if (err) return res.status(500).json({ message: 'Something went wrong.', err: err });
-          console.log(createdLocation);
-          foundToDoList.location = createdLocation._id;
-        })
+      foundToDoList.listTitle = req.body.list.listTitle;
+      foundToDoList.dateDue = req.body.list.dateDue;
 
-      } else if (foundLocation._id !== foundToDoList.location) {
-        foundToDoList.location = foundLocation._id;
-      }
-    })
+      db.Location.findOne({ locationName: req.body.location.locationName }, (err, foundLocation) => {
+        if (err) return res.status(500).json({ message: 'Something went wrong.', err: err });
+        if (!foundLocation) {
+          db.Location.create(req.body.location, (err, createdLocation) => {
+            if (err) return res.status(500).json({ message: 'Something went wrong.', err: err });
+            console.log('createdLocation', createdLocation);
+            console.log('in new location');
+            foundToDoList.location = createdLocation._id;
+          })
 
-    foundToDoList.item = [];
-    const Items = req.body.items;
-    for (let i = 0; i < Items.length; i++) {
-      const item = Items[i];
-      const itemObj = {
-        itemName: item.itemName,
-        status: item.status
-      }
-
-      db.Item.create(itemObj, (err, createdItem) => {
-        if (err) {
-          // return to exit
-          return res
-            .status(500)
-            .json({ message: 'Something went wrong.', err: err });
+        } else if (foundLocation._id !== foundToDoList.location) {
+          foundToDoList.location = foundLocation._id;
         }
-        foundToDoList.item.push(createdItem._id);
-        if (i === Items.length - 1) {
-          foundToDoList.save();
-          // console.log(foundToDoList);
-          return res.json({ foundToDoList });
+
+        foundToDoList.item = [];
+        const Items = req.body.items;
+        for (let i = 0; i < Items.length; i++) {
+          const item = Items[i];
+          const itemObj = {
+            itemName: item.itemName,
+            status: item.status
+          }
+
+          db.Item.create(itemObj, (err, createdItem) => {
+            if (err) {
+              // return to exit
+              return res
+                .status(500)
+                .json({ message: 'Something went wrong.', err: err });
+            }
+            foundToDoList.item.push(createdItem._id);
+            if (i === Items.length - 1) {
+              // console.log('foundToDOList bf save',foundToDoList);
+              foundToDoList.save();
+
+              // console.log('foundToDOList at save',foundToDoList);
+              return res.json({ foundToDoList });
+            }
+          })
+
         }
       })
 
-    }
-  });
+
+    });
 
   //update ToDoList title, dateDue
   //find location based on String, if find, compare with ToDolist location id, if different, update ToDoList
