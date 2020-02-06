@@ -8,12 +8,12 @@ _Link to project on Heroku_
 
 ## Technologies Used
 
-- HTML5/CSS3/JS
+- HTML5 / CSS3 / JS
 - Node
 - MongoDB
 - Ajax
 - JQuery
-- Google Auth / Maps / Places
+- Google OAuth / Maps / Places APIs
 - Bootstrap
 - Responsive Design
 
