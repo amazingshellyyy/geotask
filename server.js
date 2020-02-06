@@ -75,7 +75,7 @@ ctrl.user.showProfile);
 
 /* ----------- ToDo List Routes */
 // List index
-app.get('/api/v1/list/index', ctrl.toDoList.index);
+app.get('/api/v1/list/index',mw.auth.verify, ctrl.toDoList.index);
 // List Create
 app.post('/api/v1/list/create', mw.auth.verify, ctrl.toDoList.create);
 // List Show

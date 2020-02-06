@@ -47,7 +47,7 @@ const render = (list) => {
         <input type="hidden" id="longitude" name="longitude"/>
       </div>
       <!-- Display latitude and longitude -->
-      <div class="latlong-view" style="display: none">
+      <div class="latlong-view">
         <p><b>Latitude:</b> <span id="latitude_view">${list.location.latitude}</span></p>
         <p><b>Longitude:</b> <span id="longitude_view">${list.location.longitude}</span></p>
       </div>
