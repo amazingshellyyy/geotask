@@ -111,23 +111,24 @@ const render = (list) => {
     // $(event.target).css("display", 'none');
     $(event.target).remove();
   })
-
-
   let searchInput = 'locationName';
-
-autocomplete = new google.maps.places.Autocomplete((document.getElementById(searchInput)), {
-  types: ['geocode'],
-  componentRestrictions: {
-    country: "USA",
-  },
-  radius: '500'
-});
+  autocomplete = new google.maps.places.Autocomplete((document.getElementById(searchInput)), {
+    types: ['geocode'],
+    componentRestrictions: {
+      country: "USA",
+    },
+    radius: '500'
+  });
 }
 
 
 
+$('.save').on('click', ()=> {
+  var near_place = autocomplete.getPlace();
+  lat = near_place.geometry.location.lat();
+  long = near_place.geometry.location.lng();
 
-
+})
 
 
 /* Delete list */
@@ -155,7 +156,7 @@ $form.on('click', '.delete', () => {
 
 $form.on('click', 'input', () => {
   $('button').css('display', '');
-  
+
   // google.maps.event.addListener(autocomplete, 'place_changed', function () {
   //   var near_place = autocomplete.getPlace();
   //   document.getElementById('latitude').value = near_place.geometry.location.lat();
@@ -164,7 +165,7 @@ $form.on('click', 'input', () => {
   //   document.getElementById('longitude_view').innerHTML = near_place.geometry.location.lng();
 
   // });
- 
+
 
   // $('#searchInput').on('keyup', () => {
   //   document.getElementById('latitude_input').value = '';
@@ -192,19 +193,10 @@ let lat = 0;
 let long = 0;
 //submiting update form
 $form.on('submit', () => {
-  
-  // google.maps.event.addListener(autocomplete, 'place_changed', function () {
-    var near_place = autocomplete.getPlace();
-    lat = near_place.geometry.location.lat();
-    long = near_place.geometry.location.lng();
-  // });
-
-console.log(lat);
-console.log(long);
-
-
   clearAlertMessage();
   event.preventDefault();
+  console.log(lat);
+  console.log(long);
   const listData = {};
   const list = {};
   const location = {};
@@ -218,7 +210,6 @@ console.log(long);
   //check valid and filter out button
   for (let i = 0; i < formInput.length; i++) {
     if (formInput[i].tagName === 'BUTTON') {
-      console.log(formInput[i]);
       formInput.splice(i, 1);
     } else if (formInput[i].className === 'form-check-input') {
       console.log(formInput[i]);
@@ -228,7 +219,7 @@ console.log(long);
       formIsValid = false;
       formInput[i].classList.add('input-error');
       formInput[i].insertAdjacentHTML('afterend', `<div class="alert">Please enter valid information</div>`)
-    } 
+    }
 
   }
   console.log(formInput);
@@ -264,9 +255,9 @@ console.log(long);
   listData.location.latitude = lat;
   listData.location.longitude = long;
   listData.items = items;
-  console.log("update list to be send",listData);
+  console.log("update list to be send", listData);
   //fetch list
- if (formIsValid) {
+  if (formIsValid) {
     //send data to server
     fetch(`${BASE}/api/v1/list/detail/${listId}`, {
       method: 'PUT',
@@ -282,7 +273,7 @@ console.log(long);
       })
       .catch(err => console.log(err))
   }
- 
+
   $('.blank').removeClass('blank')
   $('.save').css('display', 'none');
 
