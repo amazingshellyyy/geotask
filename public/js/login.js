@@ -63,7 +63,8 @@ $form.on('submit', handleLogIn);
 function onSignIn(googleUser) {
   let profile = googleUser.getBasicProfile();
   let id_token = googleUser.getAuthResponse().id_token;
-
+console.log(profile);
+console.log(id_token);
   const GEmail = profile.getEmail();
   const socialUserData = {
     email: GEmail,
@@ -79,7 +80,7 @@ function onSignIn(googleUser) {
   })
     .then(res => res.json())
     .then((data) => {
-      const jwt = data.jwt
+      const jwt = data.jwt;
       localStorage.setItem('jwt', jwt);
       window.location = '/profile';
     })
