@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
-const DB_URI = process.env.MONGODB_URI || 4000 ;
+const MONGODB_URI = process.env.MONGODB_URI || 4000 ;
 
-mongoose.connect(DB_URI, {
+mongoose.connect(MONGODB_URI, {
   useNewUrlParser: true,
   useFindAndModify: false,
   useCreateIndex: true,
