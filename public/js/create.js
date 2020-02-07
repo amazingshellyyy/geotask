@@ -1,4 +1,4 @@
-const BASE = 'http://localhost:4000';
+
 const token = localStorage.getItem('jwt');
 
 // const $addBtn = $('#addItem');
@@ -89,7 +89,7 @@ $form.on('submit', () => {
   //fetch list
   if (formIsValid) {
     //send data to server
-    fetch(`${BASE}/api/v1/list/create`, {
+    fetch(`/api/v1/list/create`, {
       method: 'POST',
       headers: {
         'content-Type': 'application/json',
@@ -101,7 +101,7 @@ $form.on('submit', () => {
       .then((data) => {
 
         const listId = data.createdToDoList._id;
-        let url = new URL(`${BASE}/detail`);
+        let url = new URL(`/detail`);
         let query_string = url.search;
         let search_params = new URLSearchParams(query_string);
         search_params.append('id', `${listId}`);

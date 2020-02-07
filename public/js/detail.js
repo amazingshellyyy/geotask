@@ -1,4 +1,4 @@
-const BASE = 'http://localhost:4000';
+
 const $form = $('form');
 const token = localStorage.getItem('jwt');
 
@@ -244,7 +244,7 @@ $form.on('submit', () => {
   //fetch list
   if (formIsValid) {
     //send data to server
-    fetch(`${BASE}/api/v1/list/detail/${listId}`, {
+    fetch(`/api/v1/list/detail/${listId}`, {
       method: 'PUT',
       headers: {
         'content-Type': 'application/json',

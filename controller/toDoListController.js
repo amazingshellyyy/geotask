@@ -185,12 +185,7 @@ const update = (req, res) => {
 
     });
 
-  //update ToDoList title, dateDue
-  //find location based on String, if find, compare with ToDolist location id, if different, update ToDoList
-  //if not find, create location, get id and update Todolist
-  //drop all item on ToDoList and create new item by for loop and push all to array
-  //save()
-  //res.json(updatedToDoList)
+  
 
 
 };
