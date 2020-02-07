@@ -1,5 +1,5 @@
 const $form = $('form');
-const BASE = 'http://localhost:4000';
+
 
 const clearAlertMessage = () => {
   document.querySelectorAll('.alert').forEach(ele => {
@@ -38,7 +38,7 @@ const handleSignUp = () => {
   });
   if (formIsValid) {
     //send data to server
-    fetch(`${BASE}/api/v1/signup`, {
+    fetch(`/api/v1/signup`, {
       method: 'POST',
       headers: {
         'content-Type': 'application/json',
@@ -71,7 +71,7 @@ function onSignIn(googleUser) {
     GoogleToken: id_token
   };
 
-  fetch(`${BASE}/api/v1/socialSignup`, {
+  fetch(`/api/v1/socialSignup`, {
     method: 'POST',
     headers: {
       'content-Type': 'application/json',

@@ -12,11 +12,11 @@ let user = {
 
 /* Validating Signin Token Stored Locally */
 user.token = localStorage.getItem('jwt');
-const BASE = 'http://localhost:4000';
+
 
 if (!!user.token) {
   //send data to server
-  fetch(`${BASE}/api/v1/profile`, {
+  fetch(`/api/v1/profile`, {
     method: 'POST',
     headers: {
       'authorization': `bearer ${user.token}`,
@@ -57,7 +57,7 @@ const createMarkers = (array) => {
     let listName = list.listTitle;
     let template = `
       <h1>${locationName}</h1>
-      <h2><a href="${BASE}/detail/?id=${listId}">${listName}</a></h2>
+      <h2><a href="/detail/?id=${listId}">${listName}</a></h2>
       `;
     // Filtering out List Items that have been Completed
     let itemCount = 0

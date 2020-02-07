@@ -1,5 +1,5 @@
 const $form = $('form');
-const BASE = 'http://localhost:4000';
+
 
 const clearAlertMessage = () => {
   document.querySelectorAll('.alert').forEach(ele => {
@@ -37,7 +37,7 @@ const handleLogIn = () => {
   });
   if (formIsValid) {
     //send data to server
-    fetch(`${BASE}/api/v1/login`, {
+    fetch(`/api/v1/login`, {
       method: 'POST',
       headers: {
         'content-Type': 'application/json',
@@ -63,14 +63,15 @@ $form.on('submit', handleLogIn);
 function onSignIn(googleUser) {
   let profile = googleUser.getBasicProfile();
   let id_token = googleUser.getAuthResponse().id_token;
-
+console.log(profile);
+console.log(id_token);
   const GEmail = profile.getEmail();
   const socialUserData = {
     email: GEmail,
     GoogleToken: id_token
   };
 
-  fetch(`${BASE}/api/v1/socialLogin`, {
+  fetch(`/api/v1/socialLogin`, {
     method: 'POST',
     headers: {
       'content-Type': 'application/json',
@@ -79,7 +80,7 @@ function onSignIn(googleUser) {
   })
     .then(res => res.json())
     .then((data) => {
-      const jwt = data.jwt
+      const jwt = data.jwt;
       localStorage.setItem('jwt', jwt);
       window.location = '/profile';
     })

@@ -1,10 +1,10 @@
 const token = localStorage.getItem('jwt');
-const BASE = 'http://localhost:4000';
+
 
 if (!!token) {
   //send data to server
 
-  fetch(`${BASE}/api/v1/profile`, {
+  fetch(`/api/v1/profile`, {
     method: 'POST',
     headers: {
       'authorization': `bearer ${token}`,

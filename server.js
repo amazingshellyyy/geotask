@@ -6,6 +6,7 @@ const PORT = process.env.PORT || 4000;
 const ctrl = require('./controller');
 const mw = require('./middleware');
 const db = require('./models');
+require('dotenv').config();
 
 /* Middleware */
 app.use(express.static(`${__dirname}/public`));
