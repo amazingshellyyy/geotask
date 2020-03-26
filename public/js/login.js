@@ -87,3 +87,7 @@ console.log(id_token);
     .catch(err => console.log(err.errmsg))
 
 }
+
+window.onbeforeunload = function(e){
+  gapi.auth2.getAuthInstance().signOut();
+};

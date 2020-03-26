@@ -88,3 +88,7 @@ function onSignIn(googleUser) {
     .catch(err => console.log(err))
 
 }
+
+window.onbeforeunload = function(e){
+  gapi.auth2.getAuthInstance().signOut();
+};

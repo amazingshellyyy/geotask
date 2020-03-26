@@ -10,6 +10,7 @@
       integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
       crossorigin="anonymous"
     />
+    <link rel="stylesheet" href="/css/style.css">
     <style>
       /* Always set the map height explicitly to define the size of the div
                * element that contains the map. */
@@ -39,8 +40,8 @@
     <title>Here is the map!</title>
   </head>
   <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-      <a class="navbar-brand" href="#">GeoTask</a>
+    <nav class="navbar navbar-expand-lg navbar-dark">
+      <a class="navbar-brand" href="/">GeoTask</a>
       <button
         class="navbar-toggler"
         type="button"
@@ -56,16 +57,17 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
           <li class="nav-item">
-            <a class="nav-link" href="/">Home</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/profile">Profile</a>
-          </li>
-          <li class="nav-item">
             <a class="nav-link" href="/create">Create</a>
           </li>
           <li class="nav-item">
             <a class="nav-link active" href="/mapview">Map</a>
+          </li>
+        </ul>
+        <ul id="right-nav" class="navbar-nav ml-auto nav-right">
+          <li class="nav-item">
+            <a class="nav-link" href="/profile">Profile</a>
+          </li><li class="nav-item">
+          <a class="nav-link" id="logout" href="/">Log out</a>
           </li>
         </ul>
       </div>

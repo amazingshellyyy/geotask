@@ -1,3 +1,8 @@
+body {
+  margin: 0;
+  padding: 0;
+}
+
 input[type="text"] {
   border-color: transparent;
 }
@@ -5,4 +10,21 @@ input[type="text"] {
 #listlink {
   padding:0;
   float: right;
+}
+
+.navbar {
+  background-color:#6C63FF;
+  color: white;
+}
+
+.btn-default {
+  /* background-color: #6C63FF; */
+  color:#000;
+  border-color: #5952d1; 
+}
+ 
+.btn-default:hover, .btn-default:focus, .btn-default:active, .btn-default.active, .open .dropdown-toggle.btn-default {
+  background-color: #5952d1;
+  color:#FFF;
+  border-color: #433e9e;
 }
